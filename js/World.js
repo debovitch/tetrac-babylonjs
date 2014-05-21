@@ -15,7 +15,7 @@ function World() {
     this.engine = new BABYLON.Engine(this.canvas, true);
 
     // Creating test scene
-    var testScene = new Scene(this.engine);
+    var testScene = new TestScene(this.engine);
     testScene.activeCamera.attachControl(this.canvas);
 
     this.currentScene = testScene;
