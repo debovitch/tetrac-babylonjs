@@ -2,6 +2,7 @@
 <html>
 
     <head>
+
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <title>BabylonJS test</title>
         <meta name="description" content="">
@@ -23,6 +24,14 @@
                 overflow: hidden;
             }
         </style>
+
+        <script src="js/vendor/jquery-1.10.2.min.js"></script>
+        <script src="js/vendor/babylon.1.11.js"></script>
+        <script src="js/vendor/hand-1.3.8.js"></script>
+
+        <script src="js/World.js"></script>
+        <script src="js/Scene.js"></script>
+
     </head>
 
     <body>
@@ -31,14 +40,8 @@
             <canvas id="renderCanvas"></canvas>
         </div>
 
-        <script src="js/vendor/jquery-1.10.2.min.js"></script>
-        <script src="js/vendor/babylon.1.11.js"></script>
-        <script src="js/vendor/hand-1.3.8.js"></script>
-
-        <script src="js/World.js"></script>
-
         <script type="text/javascript">
-            $(function() {
+            $(window).load(function() {
                 new World();
             });
         </script>
