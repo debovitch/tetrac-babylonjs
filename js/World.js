@@ -1,6 +1,9 @@
 function World() {
 
-    var canvas = document.getElementById("renderCanvas");
+    var that = this;
+
+    // Get canvas element
+    this.canvas = document.getElementById("renderCanvas");
 
     // Check support
     if (!BABYLON.Engine.isSupported()) {
@@ -9,21 +12,27 @@ function World() {
     }
 
     // Babylon
-    var engine = new BABYLON.Engine(canvas, true);
+    this.engine = new BABYLON.Engine(this.canvas, true);
 
-    // Creating scene
-    scene = new Scene(engine);
+    // Creating test scene
+    var testScene = new Scene(this.engine);
+    testScene.activeCamera.attachControl(this.canvas);
 
-    scene.activeCamera.attachControl(canvas);
+    this.currentScene = testScene;
 
     // Once the scene is loaded, just register a render loop to render it
-    engine.runRenderLoop(function () {
-        scene.render();
-    });
+    this.engine.runRenderLoop(
+        function() {
+            that.currentScene.render();
+        }
+    );
 
     // Resize
-    window.addEventListener("resize", function () {
-        engine.resize();
-    });
+    window.addEventListener(
+        'resize',
+        function () {
+            that.engine.resize();
+        }
+    );
 
 }
