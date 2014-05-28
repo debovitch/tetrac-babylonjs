@@ -25,50 +25,39 @@ function World() {
     this.light = new BABYLON.PointLight("Omni", new BABYLON.Vector3(50, 50, 0), this.currentScene);
 
     // Adding an Arc Rotate Camera
-    this.camera = new BABYLON.ArcRotateCamera("Camera", 0, 1, 100, new BABYLON.Vector3.Zero(), this.currentScene);
+    this.camera = new BABYLON.ArcRotateCamera("Camera", 0, 0, 10, new BABYLON.Vector3.Zero(), this.currentScene);
 
     this.currentScene.activeCamera.attachControl(this.canvas);
 
-    //BABYLON.SceneLoader.Load("", "cuberouge.babylon", this.engine, function(newScene) {
-    //BABYLON.SceneLoader.ImportMesh("bounds", "/assets/", "bounds.babylon", this.currentScene, function(newMeshes, particleSystems) {
-        BABYLON.SceneLoader.ImportMesh(
-            "redCube", "/assets/", "redCube.babylon",
-            that.currentScene,
-            function(newMeshes, particleSystems) {
-                that.engine.runRenderLoop(function() {
+    BABYLON.SceneLoader.ImportMesh(
+        "redCube", "/assets/", "redCube.babylon",
+        that.currentScene,
+        function(newMeshes, particleSystems) {
+
+            var yellowMat = new BABYLON.StandardMaterial("yellowMat", that.currentScene);
+            yellowMat.diffuseColor = new BABYLON.Color3(0.9451, 0.9216, 0.1137);
+
+            for (var i=0; i<5; i++) {
+                for (var j=0; j<4; j++) {
+                    for (var k=0; k<5; k++) {
+                        var yellowCube = newMeshes[0].clone("yellowCube" + i + j);
+                        yellowCube.position = new BABYLON.Vector3(4*i, 3*j, 4*k);
+                        if ((i+j+k)%2) {
+                            yellowCube.material = yellowMat;
+                        }
+                    }
+                }
+            }
+
+            that.engine.runRenderLoop(
+                function() {
                     that.currentScene.render();
-                });
-            }, function (progress) {
-                // To do: give progress feedback to user
-            }
-        );
-    //}, function (progress) {
-        // To do: give progress feedback to user
-    //});
+                }
+            );
 
-    /*
-    // Once the scene is loaded, just register a render loop to render it
-    this.engine.runRenderLoop(
-        function() {
-            app.world.currentScene.render();
         }
     );
-*/
 
-    /*
-    // When click event is raised
-    window.addEventListener(
-        'click',
-        function(evt) {
-            var pickResult = app.world.currentScene.pick(evt.clientX, evt.clientY);
-            if (pickResult.pickedPoint) {
-                var dir = pickResult.pickedPoint.subtract(app.world.currentScene.activeCamera.position);
-                dir.normalize();
-                pickResult.pickedMesh.applyImpulse(dir.scale(10), pickResult.pickedPoint);
-            }
-        }
-    );
-    */
 
     // Resize
     window.addEventListener(
