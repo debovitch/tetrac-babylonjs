@@ -55,4 +55,31 @@ TestScene.prototype.createObjects = function() {
     this.material5.wireframe = true;
     this.knot.material = this.material5;
 
+    this.material6 = new BABYLON.StandardMaterial("texture6", this);
+    this.material6.diffuseColor = new BABYLON.Color3(1.0, 0.0, 0.0);
+
+    // Compound
+    this.part0 = BABYLON.Mesh.CreateBox("part0", 3, this);
+    this.part0.material = this.material1;
+    this.part0.position = new BABYLON.Vector3(3, 6, 0);
+
+    this.part1 = BABYLON.Mesh.CreateBox("part1", 3, this);
+    this.part1.parent = this.part0; // We need a hierarchy for compound objects
+    this.part1.position = new BABYLON.Vector3(0, 0, 0);
+
+    this.createCompoundImpostor(
+        {
+            mass : 2,
+            friction : 0.4,
+            restitution : 0.3,
+            parts : [
+                { mesh : this.part0, impostor : BABYLON.PhysicsEngine.BoxImpostor },
+                { mesh : this.part1, impostor : BABYLON.PhysicsEngine.BoxImpostor }
+            ]
+        }
+    );
+
+    this.enablePhysics();
+    this.setGravity(new BABYLON.Vector3(0, -10, 0));
+
 };
