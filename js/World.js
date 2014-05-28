@@ -22,10 +22,10 @@ function World() {
     this.currentScene = new BABYLON.Scene(this.engine);
 
     // Adding the light to the scene
-    this.light = new BABYLON.PointLight("Omni", new BABYLON.Vector3(-20, 50, 0), this.currentScene);
+    this.light = new BABYLON.PointLight("Omni", new BABYLON.Vector3(50, 50, 0), this.currentScene);
 
     // Adding an Arc Rotate Camera
-    this.camera = new BABYLON.ArcRotateCamera("Camera", 0, 0.8, 30, new BABYLON.Vector3.Zero(), this.currentScene);
+    this.camera = new BABYLON.ArcRotateCamera("Camera", 0, 1, 100, new BABYLON.Vector3.Zero(), this.currentScene);
 
     this.currentScene.activeCamera.attachControl(this.canvas);
 
