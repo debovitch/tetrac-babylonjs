@@ -6,11 +6,13 @@ function TetradScene(engine, callback) {
     this.callback = callback;
 
     this.clearColor = new BABYLON.Vector3(0.2, 0.2, 0.2);
-    
-    this.createLights();
+
+    //this.createLights();
     this.createCameras();
-    this.createMaterials();
-    this.createObjects();
+    //this.createMaterials();
+    //this.createObjects();
+    this.createSkybox();
+    callback();
 
 }
 
@@ -100,5 +102,19 @@ TetradScene.prototype.createObjects = function() {
 
         }
     );
+
+};
+
+TetradScene.prototype.createSkybox = function() {
+
+    var skybox = BABYLON.Mesh.CreateBox("skybox", 400.0, this);
+    var skyboxMaterial = new BABYLON.StandardMaterial("skyboxMat", this);
+    skyboxMaterial.backFaceCulling = false;
+    skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+    skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+    skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("assets/skybox/moon/moon", this);
+    skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+
+    skybox.material = skyboxMaterial;
 
 };

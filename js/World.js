@@ -11,28 +11,30 @@ function World() {
         return;
     }
 
-    // Babylon
+    // Attach canvas to Babylon engine
     this.engine = new BABYLON.Engine(this.canvas, true);
 
-    // Creating test scene
+    // Create render loop when scene is loaded
+    this.callback = function() {
+        that.engine.runRenderLoop(
+            function() {
+                app.world.currentScene.render();
+            }
+        );
+    };
+    
+    // Create scenes
     //var testScene = new TestScene(this.engine);
     //var physicsScene = new PhysicsScene(this.engine);
     //var blenderScene = new BlenderScene(this.engine);
-    var tetradScene = new TetradScene(
-        this.engine,
-        function() {
-            that.engine.runRenderLoop(
-                function() {
-                    that.currentScene.render();
-                }
-            );
-        }
-    );
+    //var tetradScene = new TetradScene(this.engine, this.callback);
+    var skyboxScene = new SkyboxScene(this.engine, this.callback);
 
-    this.currentScene = tetradScene;
+    // Attach input events to active camera
+    this.currentScene = skyboxScene;
     this.currentScene.activeCamera.attachControl(this.canvas);
 
-    // Resize
+    // Set resize event callback
     window.addEventListener(
         'resize',
         function () {
