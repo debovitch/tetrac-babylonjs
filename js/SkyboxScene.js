@@ -18,7 +18,8 @@ $.extend(SkyboxScene.prototype, BABYLON.Scene.prototype);
 
 SkyboxScene.prototype.createCameras = function() {
 
-    this.camera = new BABYLON.ArcRotateCamera("Camera", Math.PI/6, Math.PI/3, 50, new BABYLON.Vector3.Zero(), this);
+    //this.camera = new BABYLON.ArcRotateCamera("Camera", Math.PI/6, Math.PI/3, 50, new BABYLON.Vector3.Zero(), this);
+    this.camera = new BABYLON.DeviceOrientationCamera("Camera", new BABYLON.Vector3(0, 1, -15), this);
 
 };
 

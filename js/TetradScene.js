@@ -7,12 +7,11 @@ function TetradScene(engine, callback) {
 
     this.clearColor = new BABYLON.Vector3(0.2, 0.2, 0.2);
 
-    //this.createLights();
+    this.createLights();
     this.createCameras();
-    //this.createMaterials();
-    //this.createObjects();
+    this.createMaterials();
+    this.createObjects();
     this.createSkybox();
-    callback();
 
 }
 
@@ -98,7 +97,7 @@ TetradScene.prototype.createObjects = function() {
 
             board.locallyTranslate(new BABYLON.Vector3(-14, -0.7, -14));
 
-            that.callback();
+            app.world.callback();
 
         }
     );

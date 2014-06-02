@@ -22,16 +22,16 @@ function World() {
             }
         );
     };
-    
+
     // Create scenes
     //var testScene = new TestScene(this.engine);
     //var physicsScene = new PhysicsScene(this.engine);
     //var blenderScene = new BlenderScene(this.engine);
-    //var tetradScene = new TetradScene(this.engine, this.callback);
-    var skyboxScene = new SkyboxScene(this.engine, this.callback);
+    //var skyboxScene = new SkyboxScene(this.engine, this.callback);
+    var tetradScene = new TetradScene(this.engine, this.callback);
 
     // Attach input events to active camera
-    this.currentScene = skyboxScene;
+    this.currentScene = tetradScene;
     this.currentScene.activeCamera.attachControl(this.canvas);
 
     // Set resize event callback
