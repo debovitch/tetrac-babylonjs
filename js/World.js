@@ -24,14 +24,14 @@ function World() {
     };
 
     // Create scenes
-    this.testScene = new TestScene(this.engine, this.callback);
+    //this.testScene = new TestScene(this.engine, this.callback);
     //var physicsScene = new PhysicsScene(this.engine);
     //var blenderScene = new BlenderScene(this.engine);
     //var skyboxScene = new SkyboxScene(this.engine, this.callback);
-    //this.tetradScene = new TetradScene(this.engine, this.callback);
+    this.tetradScene = new TetradScene(this.engine, this.callback);
 
     // Attach input events to active camera
-    this.currentScene = this.testScene;
+    this.currentScene = this.tetradScene;
     this.currentScene.activeCamera.attachControl(this.canvas);
 
     // Set resize event callback

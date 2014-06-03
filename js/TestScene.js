@@ -7,7 +7,7 @@ function TestScene(engine, callback) {
     this.createCameras();
     this.createMaterials();
     this.createObjects();
-    this.createMirror();
+
     callback();
 
 }
@@ -38,6 +38,12 @@ TestScene.prototype.createMaterials = function() {
     this.material1.diffuseColor = new BABYLON.Color3(1.0, 0.2, 0.7);
     this.material1.backFaceCulling = false;
 
+    this.mirrorMaterial = new BABYLON.StandardMaterial("mirrorMat", this);
+    this.mirrorMaterial.diffuseColor = new BABYLON.Color3(1, 0, 0);
+    this.mirrorMaterial.backFaceCulling = false;
+    this.mirrorMaterial.reflectionTexture = new BABYLON.MirrorTexture("mirrorTex", 1024, this, true);
+    this.mirrorMaterial.reflectionTexture.mirrorPlane = new BABYLON.Plane(0, -1, 0, 0);
+
 };
 
 TestScene.prototype.createObjects = function() {
@@ -46,18 +52,9 @@ TestScene.prototype.createObjects = function() {
     this.sphere.position = new BABYLON.Vector3(0, 5, 0);
     this.sphere.material = this.material1;
 
+    this.mirrorMaterial.reflectionTexture.renderList.push(this.sphere);
+
     this.ground = BABYLON.Mesh.CreateGround("extraGround", 100, 100, 1, this, false);
-    //this.ground.material = this.material1;
-
-};
-
-TestScene.prototype.createMirror = function() {
-
-    this.mirrorMaterial = new BABYLON.StandardMaterial("mirrorMat", this);
-    this.mirrorMaterial.reflectionTexture = new BABYLON.MirrorTexture("mirrorTex", 1024, this, true);
-    this.mirrorMaterial.reflectionTexture.mirrorPlane = new BABYLON.Plane(0, -1, 0, 0);
-    this.mirrorMaterial.reflectionTexture.renderList = [this.sphere];
-
     this.ground.material = this.mirrorMaterial;
 
 };

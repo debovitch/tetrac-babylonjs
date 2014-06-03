@@ -41,7 +41,7 @@ TetradScene.prototype.createCameras = function() {
 TetradScene.prototype.createMaterials = function() {
 
     this.brownMaterial = new BABYLON.StandardMaterial("brownMat", this);
-    this.brownMaterial.diffuseColor = new BABYLON.Color3(0.3490, 0.1490, 0.0588);
+    this.brownMaterial.diffuseColor = new BABYLON.Color3(0.0872, 0.0372, 0.0147);
     this.brownMaterial.specularColor = new BABYLON.Color3(1.0000, 1.0000, 1.0000);
     this.brownMaterial.specularPower = 500;
     this.backFaceCulling = false;
@@ -54,9 +54,13 @@ TetradScene.prototype.createMaterials = function() {
     this.wireMaterial.wireframe = true;
 
     this.mirrorMaterial = new BABYLON.StandardMaterial("mirrorMat", this);
+    this.mirrorMaterial.ambientColor = new BABYLON.Color3(0, 0, 0);
+    this.mirrorMaterial.diffuseColor = new BABYLON.Color3(0.0872, 0.0372, 0.0147);
+    this.mirrorMaterial.specularColor = new BABYLON.Color3(1, 1, 1);
+    this.mirrorMaterial.specularPower = 5000;
+    this.mirrorMaterial.backFaceCulling = false;
     this.mirrorMaterial.reflectionTexture = new BABYLON.MirrorTexture("mirrorTex", 1024, this, true);
-    this.mirrorMaterial.reflectionTexture.mirrorPlane = new BABYLON.Plane(0, 1, 0, 1);
-    this.mirrorMaterial.reflectionTexture.renderList = [];
+    this.mirrorMaterial.reflectionTexture.mirrorPlane = new BABYLON.Plane(0, -1, 0, -1.8);
 
 };
 
@@ -74,8 +78,9 @@ TetradScene.prototype.createObjects = function() {
         that,
         function(meshes) {
 
-            that.createPlate(meshes[1]);
             that.createPawns(meshes[2]);
+            that.createPlate(meshes[1]);
+
             app.world.callback();
 
         }
@@ -100,10 +105,9 @@ TetradScene.prototype.createPlate = function(mesh) {
     mesh.rotation.x = -Math.PI / 2;
     mesh.locallyTranslate(new BABYLON.Vector3(0, -2, 0));
 
-    /*this.plate = new BABYLON.Mesh.CreatePlane("plate2", 35.0, this);
-    this.plate.rotation.x = Math.PI / 2;
-    this.plate.position.y = -2.35;
-    this.plate.material = this.mirrorMaterial;*/
+    this.plate = BABYLON.Mesh.CreateGround("mirror", 32, 32, 1, this, false);
+    this.plate.locallyTranslate(new BABYLON.Vector3(0, -2.39, 0));
+    this.plate.material = this.mirrorMaterial;
 
 };
 
