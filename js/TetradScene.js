@@ -41,66 +41,101 @@ TetradScene.prototype.createCameras = function() {
 TetradScene.prototype.createMaterials = function() {
 
     this.brownMaterial = new BABYLON.StandardMaterial("brownMat", this);
-    this.brownMaterial.diffuseColor = new BABYLON.Color3(0.4730, 0.8170, 0.2710);
+    this.brownMaterial.diffuseColor = new BABYLON.Color3(0.3490, 0.1490, 0.0588);
     this.brownMaterial.specularColor = new BABYLON.Color3(1.0000, 1.0000, 1.0000);
     this.brownMaterial.specularPower = 500;
+    this.backFaceCulling = false;
+    this.brownMaterial.wireframe = false;
+
+    this.yellowMaterial = new BABYLON.StandardMaterial("yellowMat", this);
+    this.yellowMaterial.diffuseColor = new BABYLON.Color3(1.0000, 0.7000, 0.1000);
+
+    this.wireMaterial = new BABYLON.StandardMaterial("wire", this);
+    this.wireMaterial.wireframe = true;
+
+    this.mirrorMaterial = new BABYLON.StandardMaterial("mirrorMat", this);
+    this.mirrorMaterial.reflectionTexture = new BABYLON.MirrorTexture("mirrorTex", 1024, this, true);
+    this.mirrorMaterial.reflectionTexture.mirrorPlane = new BABYLON.Plane(0, 1, 0, 1);
+    this.mirrorMaterial.reflectionTexture.renderList = [];
 
 };
 
 TetradScene.prototype.createObjects = function() {
 
-    // Create plate
-    this.topPlate = BABYLON.Mesh.CreatePlane("topPlate", 40.0, this);
-    this.topPlate.receiveShadows = false;
-    this.topPlate.material = this.brownMaterial;
-    this.topPlate.rotation.x = Math.PI/2;
-    this.topPlate.position.y = -2;
+    //this.box = new BABYLON.Mesh.CreateBox("measure", 2.5, this);
+    //this.box.position = new BABYLON.Vector3(0, 0, 0);
 
-    this.bottomPlate = this.topPlate.clone("bottomPlate");
-    this.bottomPlate.receiveShadows = false;
-    this.bottomPlate.rotation.x = -Math.PI/2;
-    this.bottomPlate.position.y = -2.1;
+    this.setDimensions();
 
     var that = this;
 
     BABYLON.SceneLoader.ImportMesh(
-        "", "/assets/", "tetrad.babylon",
+        "", "/assets/tetrad/", "tetrad.babylon",
         that,
-        function(newMeshes, particleSystems) {
+        function(meshes) {
 
-            var yellowMat = new BABYLON.StandardMaterial("yellowMat", that);
-            yellowMat.diffuseColor = new BABYLON.Color3(1.0000, 0.7000, 0.1000);
-
-            var board = BABYLON.Mesh.CreateBox("board", 2.5 * 5, that);
-            var wireMaterial = new BABYLON.StandardMaterial("wire", that);
-            wireMaterial.wireframe = true;
-            board.material = wireMaterial;
-            board.isVisible = false;
-
-            newMeshes[0].parent = board;
-
-            for (var i=0; i<5; i++) {
-                for (var j=0; j<4; j++) {
-                    for (var k=0; k<5; k++) {
-                        if (i+j+k) {
-                            var pawn = newMeshes[0].clone("pawn" + i + j + k);
-                            pawn.position = new BABYLON.Vector3(7*i, 2.5*j, 7*k);
-                            if ((i+j+k)%2) {
-                                pawn.material = yellowMat;
-                            }
-                            pawn.parent = board;
-                            //that.shadowGenerator.getShadowMap().renderList.push(pawn);
-                        }
-                    }
-                }
-            }
-
-            board.locallyTranslate(new BABYLON.Vector3(-14, -0.7, -14));
-
+            that.createPlate(meshes[1]);
+            that.createPawns(meshes[2]);
             app.world.callback();
 
         }
     );
+
+};
+
+TetradScene.prototype.setDimensions = function() {
+
+    this.pawnSize = 2.5;
+    this.xyGap = 1.72 * this.pawnSize;
+    this.zGap = 0;
+    this.originXY = -2 * (this.pawnSize + this.xyGap);
+    this.originZ =  -0.54;
+
+};
+
+TetradScene.prototype.createPlate = function(mesh) {
+
+    mesh.material = this.brownMaterial;
+    mesh.scaling.z = 0.2;
+    mesh.rotation.x = -Math.PI / 2;
+    mesh.locallyTranslate(new BABYLON.Vector3(0, -2, 0));
+
+    /*this.plate = new BABYLON.Mesh.CreatePlane("plate2", 35.0, this);
+    this.plate.rotation.x = Math.PI / 2;
+    this.plate.position.y = -2.35;
+    this.plate.material = this.mirrorMaterial;*/
+
+};
+
+TetradScene.prototype.createPawns = function(mesh) {
+
+    var board = BABYLON.Mesh.CreateBox("board", 2.5 * 5, app.world.tetradScene);
+    board.material = this.wireMaterial;
+    board.isVisible = false;
+
+    mesh.parent = board;
+
+    for (var i=0; i<5; i++) {
+        for (var j=0; j<5; j++) {
+            for (var k=0; k<4; k++) {
+                if (i+j+k) {
+                    var pawn = mesh.clone("pawn" + i + j + k);
+                    pawn.position.x = i * (this.pawnSize + this.xyGap);
+                    pawn.position.y = k * (this.pawnSize + this.zGap);
+                    pawn.position.z = j * (this.pawnSize + this.xyGap);
+                    if ((i+j+k)%2) {
+                        pawn.material = app.world.tetradScene.yellowMaterial;;
+                    }
+                    pawn.parent = board;
+                    //that.shadowGenerator.getShadowMap().renderList.push(pawn);
+
+                    this.mirrorMaterial.reflectionTexture.renderList.push(pawn);
+                }
+            }
+        }
+    }
+
+    board.locallyTranslate(new BABYLON.Vector3(this.originXY, this.originZ, this.originXY));
 
 };
 
