@@ -7,9 +7,9 @@ function TetradScene(engine, callback) {
 
     this.clearColor = new BABYLON.Vector3(0.2, 0.2, 0.2);
 
+    this.createMaterials();
     this.createLights();
     this.createCameras();
-    this.createMaterials();
     this.createObjects();
     this.createSkybox();
 
@@ -21,11 +21,9 @@ $.extend(TetradScene.prototype, BABYLON.Scene.prototype);
 
 TetradScene.prototype.createLights = function() {
 
-    /*
     this.omniLight1 = new BABYLON.PointLight("omniLight1", new BABYLON.Vector3(0, 20, 0), this);
-    this.omniLight1.diffuse = new BABYLON.Color3(1, 1, 1);
-    this.omniLight1.specular = new BABYLON.Color3(1, 1, 1);
-    */
+    this.omniLight1.diffuse = new BABYLON.Color3(0, 0, 1);
+    this.omniLight1.specular = new BABYLON.Color3(0, 0, 1);
 
     //this.hemisphericLight1 = new BABYLON.HemisphericLight("hemisphericLight1", new BABYLON.Vector3(0, 1, 0), this);
 
@@ -42,19 +40,23 @@ TetradScene.prototype.createLights = function() {
     */
 
     this.dirLight1 = new BABYLON.DirectionalLight("dirLight1", new BABYLON.Vector3(-5, -10, -5), this);
-    this.dirLight1.position = new BABYLON.Vector3(30, 40, 30);
+    this.dirLight1.position = new BABYLON.Vector3(20, 40, 20);
     this.dirLight1.diffuse = new BABYLON.Color3(1, 1, 1);
     this.dirLight1.specular = new BABYLON.Color3(1, 1, 1);
-    this.dirLight1.intensity = 0.5;
+    this.dirLight1.intensity = 1;
 
     this.shadowGenerator1 = new BABYLON.ShadowGenerator(2048, this.dirLight1);
     this.shadowGenerator1.useVarianceShadowMap = false;
+
+    this.dirLight1Sphere = new BABYLON.Mesh.CreateSphere("dirLight1Sphere", 10, 1, this);
+    this.dirLight1Sphere.position = this.dirLight1.position;
+    this.dirLight1Sphere.material = this.dirLightMat;
 
     this.dirLight2 = new BABYLON.DirectionalLight("dirLight2", new BABYLON.Vector3(5, -10, 5), this);
     this.dirLight2.position = new BABYLON.Vector3(-30, 40, -30);
     this.dirLight2.diffuse = new BABYLON.Color3(1, 1, 1);
     this.dirLight2.specular = new BABYLON.Color3(1, 1, 1);
-    this.dirLight2.intensity = 0.5;
+    this.dirLight2.intensity = 1;
 
     this.shadowGenerator2 = new BABYLON.ShadowGenerator(2048, this.dirLight2);
     this.shadowGenerator2.useVarianceShadowMap = false;
@@ -148,6 +150,9 @@ TetradScene.prototype.createMaterials = function() {
     this.boundsMaterial.emissiveColor = new BABYLON.Color3(0, 0, 0);
     this.boundsMaterial.specularColor = new BABYLON.Color3(1, 1, 1);
     this.boundsMaterial.specularPower = 1000;
+
+    this.dirLightMat = new BABYLON.StandardMaterial("dirLightMat", this);
+    this.dirLightMat.emissiveColor = new BABYLON.Color3(1, 1, 0);
 
 };
 
@@ -285,5 +290,3 @@ TetradScene.prototype.update = function() {
     }
 
 };
-
-scene.registerBeforeRender(beforeRenderFunction);

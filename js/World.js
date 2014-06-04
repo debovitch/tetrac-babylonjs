@@ -13,6 +13,8 @@ function World() {
 
     // Attach canvas to Babylon engine
     this.engine = new BABYLON.Engine(this.canvas, true);
+    this.engine.runEvenInBackground = false;
+    BABYLON.Engine.ShadersRepository = "/js/vendor/babylonjs/Shaders/";
 
     // Create render loop when scene is loaded
     this.callback = function() {
