@@ -41,7 +41,7 @@ TetradScene.prototype.createLights = function() {
 
 TetradScene.prototype.createCameras = function() {
 
-    this.camera1 = new BABYLON.ArcRotateCamera("camera1", Math.PI/6, Math.PI/3, 50, new BABYLON.Vector3.Zero(), this);
+    this.camera1 = new BABYLON.ArcRotateCamera("camera1", Math.PI/6, Math.PI/2.7, 50, new BABYLON.Vector3(0, 3.25, 0), this);
 
 };
 
@@ -53,9 +53,9 @@ TetradScene.prototype.createMaterials = function() {
     this.brownMaterial.specularPower = 500;
 
     this.blackMaterial = new BABYLON.StandardMaterial("blackMat", this);
-    this.blackMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
-    this.blackMaterial.specularColor = new BABYLON.Color3(1, 1, 1);
-    this.blackMaterial.specularPower = 500;
+    this.blackMaterial.diffuseColor = new BABYLON.Color3(0.1, 0.1, 0.1);
+    this.blackMaterial.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
+    this.blackMaterial.specularPower = 1;
 
     this.whiteMaterial = new BABYLON.StandardMaterial("whiteMat", this);
     this.whiteMaterial.diffuseColor = new BABYLON.Color3(1, 1, 1);
@@ -74,6 +74,7 @@ TetradScene.prototype.createMaterials = function() {
     this.redMaterial.diffuseColor = new BABYLON.Color3(1, 0, 0);
     this.redMaterial.specularColor = new BABYLON.Color3(1, 1, 1);
     this.redMaterial.specularPower = 500;
+    //this.redMaterial.wireframe = true;
 
     this.mirrorMaterial = new BABYLON.StandardMaterial("mirrorMat", this);
     this.mirrorMaterial.ambientColor = new BABYLON.Color3(0, 0, 0);
@@ -108,7 +109,7 @@ TetradScene.prototype.createObjects = function() {
 
     var that = this;
 
-    this.createGround();
+    //this.createGround();
 
     BABYLON.SceneLoader.ImportMesh(
         "", "/assets/tetrad/", "tetrad.babylon",
@@ -118,7 +119,7 @@ TetradScene.prototype.createObjects = function() {
             that.createBounds(meshes[0]);
             that.createPawns(meshes[2]);
             that.createPlate(meshes[1]);
-            that.createGround();
+            //that.createScenery();
 
             app.world.callback();
 
@@ -194,18 +195,31 @@ TetradScene.prototype.createPlate = function(mesh) {
 
 };
 
+/*
 TetradScene.prototype.createGround = function() {
 
-    this.ground = BABYLON.Mesh.CreateGround("ground", 400, 400, 1, this, false);
+    this.ground = BABYLON.Mesh.CreateGround("ground", 600, 600, 1, this, false);
     this.ground.locallyTranslate(new BABYLON.Vector3(0, -4, 0));
     this.ground.receiveShadows = true;
     this.ground.material = this.groundMaterial;
 
 };
 
+TetradScene.prototype.createScenery = function() {
+
+    this.torus = BABYLON.Mesh.CreateTorus("torus", 600, 200, 100, this);
+    this.torus.receiveShadows = false;
+    this.torus.position = new BABYLON.Vector3(0, 60, 0);
+    this.torus.material = this.whiteMaterial;
+    this.omniLight1.excludedMeshes.push(this.torus);
+
+};
+*/
+
 TetradScene.prototype.createSkybox = function() {
 
     var skybox = BABYLON.Mesh.CreateBox("skybox", 400.0, this);
+    skybox.position.y = 100;
     var skyboxMaterial = new BABYLON.StandardMaterial("skyboxMat", this);
     skyboxMaterial.backFaceCulling = false;
     skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
@@ -228,8 +242,8 @@ TetradScene.prototype.update = function() {
 
     if (that.camera1.radius > 150) {
         that.camera1.radius = 150;
-    } else if (that.camera1.radius < 5) {
-        that.camera1.radius = 5;
+    } else if (that.camera1.radius < 10) {
+        that.camera1.radius = 10;
     }
 
 };
