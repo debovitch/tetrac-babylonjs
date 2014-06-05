@@ -13,7 +13,7 @@ function TetradScene(engine, callback) {
     this.createObjects();
     this.createSkybox();
 
-    this.registerBeforeRender(this.update);
+    //this.registerBeforeRender(this.update);
 
 }
 
@@ -28,8 +28,8 @@ TetradScene.prototype.createLights = function() {
     this.hemisphericLight1 = new BABYLON.HemisphericLight("hemisphericLight1", new BABYLON.Vector3(0, 1, 0), this);
     this.hemisphericLight1.intensity = 0.9;
 
-    this.dirLight1 = new BABYLON.DirectionalLight("dirLight1", new BABYLON.Vector3(-5, -10, -5), this);
-    this.dirLight1.position = new BABYLON.Vector3(20, 40, 20);
+    this.dirLight1 = new BABYLON.DirectionalLight("dirLight1", new BABYLON.Vector3(2.5, -10, -5), this);
+    this.dirLight1.position = new BABYLON.Vector3(-10, 40, 20);
     this.dirLight1.diffuse = new BABYLON.Color3(1, 1, 1);
     this.dirLight1.specular = new BABYLON.Color3(1, 1, 1);
     this.dirLight1.intensity = 1;
@@ -195,7 +195,6 @@ TetradScene.prototype.createPlate = function(mesh) {
 
 };
 
-/*
 TetradScene.prototype.createGround = function() {
 
     this.ground = BABYLON.Mesh.CreateGround("ground", 600, 600, 1, this, false);
@@ -214,20 +213,23 @@ TetradScene.prototype.createScenery = function() {
     this.omniLight1.excludedMeshes.push(this.torus);
 
 };
-*/
 
 TetradScene.prototype.createSkybox = function() {
 
-    var skybox = BABYLON.Mesh.CreateBox("skybox", 400.0, this);
-    skybox.position.y = 100;
+    var skybox = BABYLON.Mesh.CreateBox("skybox", 300.0, this);
     var skyboxMaterial = new BABYLON.StandardMaterial("skyboxMat", this);
     skyboxMaterial.backFaceCulling = false;
     skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
     skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
-    skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("assets/skybox/moon/moon", this);
+    var extensions = ['_right.png', '_up.png', '_back.png', '_left.png', '_down.png', '_front.png'];
+    skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("assets/skybox/fullMoon/full_moon", this, extensions);
     skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
 
     skybox.material = skyboxMaterial;
+
+    var sphereLight = BABYLON.Mesh.CreateSphere("lightSphere", 30, 10, this);
+    sphereLight.position = new BABYLON.Vector3(0, 30, 0);
+    sphereLight.material = this.redMaterial;
 
 };
 
