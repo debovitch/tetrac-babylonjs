@@ -13,7 +13,7 @@ function TetradScene(engine, callback) {
     this.createObjects();
     this.createSkybox();
 
-    //this.registerBeforeRender(this.update);
+    this.registerBeforeRender(this.update);
 
 }
 
@@ -28,14 +28,16 @@ TetradScene.prototype.createLights = function() {
     this.hemisphericLight1 = new BABYLON.HemisphericLight("hemisphericLight1", new BABYLON.Vector3(0, 1, 0), this);
     this.hemisphericLight1.intensity = 0.9;
 
-    this.dirLight1 = new BABYLON.DirectionalLight("dirLight1", new BABYLON.Vector3(2.5, -10, -5), this);
-    this.dirLight1.position = new BABYLON.Vector3(-10, 40, 20);
+    var lightDirection = new BABYLON.Vector3(30, -20, -10);
+    this.dirLight1 = new BABYLON.DirectionalLight("dirLight1", lightDirection, this);
+    this.dirLight1.position = lightDirection.negate();
     this.dirLight1.diffuse = new BABYLON.Color3(1, 1, 1);
     this.dirLight1.specular = new BABYLON.Color3(1, 1, 1);
-    this.dirLight1.intensity = 1;
+    this.dirLight1.intensity = 0.8;
 
     this.shadowGenerator1 = new BABYLON.ShadowGenerator(4096, this.dirLight1);
     this.shadowGenerator1.useVarianceShadowMap = false;
+    this.shadowGenerator1.setDarkness(0.5);
 
 };
 
@@ -117,8 +119,8 @@ TetradScene.prototype.createObjects = function() {
         function(meshes) {
 
             that.createBounds(meshes[0]);
-            that.createPawns(meshes[2]);
             that.createPlate(meshes[1]);
+            that.createPawns(meshes[2]);
             //that.createScenery();
 
             app.world.callback();
@@ -228,9 +230,9 @@ TetradScene.prototype.createSkybox = function() {
     skybox.material = skyboxMaterial;
 
     /*
-    var sphereLight = BABYLON.Mesh.CreateSphere("lightSphere", 30, 10, this);
-    sphereLight.position = new BABYLON.Vector3(0, 30, 0);
-    sphereLight.material = this.redMaterial;
+    var sphereLight = BABYLON.Mesh.CreateSphere("lightSphere", 10, 2, this);
+    sphereLight.position = this.dirLight1.position;
+    sphereLight.material = this.yellowMaterial;
     */
 
 };
@@ -244,8 +246,8 @@ TetradScene.prototype.update = function() {
         that.camera1.beta = (Math.PI / 2) * 0.99;
     }
 
-    if (that.camera1.radius > 150) {
-        that.camera1.radius = 150;
+    if (that.camera1.radius > 140) {
+        that.camera1.radius = 140;
     } else if (that.camera1.radius < 10) {
         that.camera1.radius = 10;
     }
