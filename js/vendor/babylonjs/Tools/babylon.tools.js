@@ -546,7 +546,7 @@
             enumerable: true,
             configurable: true
         });
-        Tools.BaseUrl = "";
+        Tools.BaseUrl = "http://duchassin.fr/babylon/";
 
         Tools._NoneLogLevel = 0;
         Tools._MessageLogLevel = 1;

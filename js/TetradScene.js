@@ -112,7 +112,7 @@ TetradScene.prototype.createObjects = function() {
     //this.createGround();
 
     BABYLON.SceneLoader.ImportMesh(
-        "", "/assets/tetrad/", "tetrad.babylon",
+        "", "/assets/tetrad/", "tetrad.json",
         that,
         function(meshes) {
 
@@ -227,9 +227,11 @@ TetradScene.prototype.createSkybox = function() {
 
     skybox.material = skyboxMaterial;
 
+    /*
     var sphereLight = BABYLON.Mesh.CreateSphere("lightSphere", 30, 10, this);
     sphereLight.position = new BABYLON.Vector3(0, 30, 0);
     sphereLight.material = this.redMaterial;
+    */
 
 };
 
