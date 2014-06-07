@@ -196,7 +196,7 @@ TetradScene.prototype.createBoard = function(mesh) {
         }
     }
 */
-    
+
 };
 
 
