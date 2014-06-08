@@ -1,8 +1,9 @@
-function TetradScene(engine, callback) {
+function TetradScene(engine, game, callback) {
 
     BABYLON.Scene.call(this, engine);
 
     this.engine = engine;
+    this.game = game;
     this.callback = callback;
 
     this.clearColor = new BABYLON.Vector3(0.2, 0.2, 0.2);
@@ -13,7 +14,7 @@ function TetradScene(engine, callback) {
     this.createObjects();
     this.createSkybox();
 
-    //this.registerBeforeRender(this.update);
+    this.registerBeforeRender(this.update);
 
 }
 
@@ -254,5 +255,16 @@ TetradScene.prototype.update = function() {
     } else if (that.camera1.radius < 10) {
         that.camera1.radius = 10;
     }
+
+};
+
+TetradScene.prototype.readyToPlay = function() {
+
+    Helper.sendRequest(
+        '/new',
+        function(response) {
+            console.log("gameId : %i, x : %i, y : %i", response.gameId, response.x, response.y);
+        }
+    );
 
 };

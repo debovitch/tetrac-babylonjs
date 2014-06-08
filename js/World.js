@@ -21,9 +21,10 @@ function World() {
     this.callback = function() {
         that.engine.runRenderLoop(
             function() {
-                app.world.currentScene.render();
+                that.currentScene.render();
             }
         );
+        that.currentScene.readyToPlay();
     };
 
     // Create game
@@ -34,7 +35,7 @@ function World() {
     //var physicsScene = new PhysicsScene(this.engine);
     //var blenderScene = new BlenderScene(this.engine);
     //var skyboxScene = new SkyboxScene(this.engine, this.callback);
-    this.tetradScene = new TetradScene(this.engine, this.callback);
+    this.tetradScene = new TetradScene(this.engine, this.game, this.callback);
 
     // Attach input events to active camera
     this.currentScene = this.tetradScene;
