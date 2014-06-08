@@ -27,12 +27,19 @@ GameLines.prototype.setBoardLines = function() {
     // Init x and y board lines
     for (var i=0; i<5; i++) {
         this.boardLines.x[i] = [];
-        this.boardLines.y[i] = [];
         for (var j=0; j<2; j++) {
             this.boardLines.x[i][j] = [];
-            this.boardLines.y[i][j] = [];
             for (var k=0; k<4; k++) {
                 this.boardLines.x[i][j][k] = 0;
+            }
+        }
+    }
+
+    for (var i=0; i<2; i++) {
+        this.boardLines.y[i] = [];
+        for (var j=0; j<5; j++) {
+            this.boardLines.y[i][j] = [];
+            for (var k=0; k<4; k++) {
                 this.boardLines.y[i][j][k] = 0;
             }
         }
@@ -90,7 +97,7 @@ GameLines.prototype.setPawnsLinesTemp = function() {
     // Init all pawns lines to null
     for (var i=0; i<5; i++) {
         this.pawnsLinesTemp[i] = [];
-        for (var j=0; j<4; j++) {
+        for (var j=0; j<5; j++) {
             this.pawnsLinesTemp[i][j] = [];
             for (var k=0; k<4; k++) {
                 this.pawnsLinesTemp[i][j][k] = {
@@ -413,59 +420,60 @@ GameLines.prototype.setPawnsLines = function() {
         for (var j=0; j<5; j++) {
             this.pawnsLines[i][j] = [];
             for (var k=0; k<4; k++) {
+                this.pawnsLines[i][j][k] = [];
                 var m = 0;
                 for (var l=0; l<4; l++) {
 
                     if (this.pawnsLinesTemp[i][j][k].x[l] != null) {
-                        (this.pawnsLines[i][j][k])[m] = this.pawnsLinesTemp[i][j][k].x[l];
+                        this.pawnsLines[i][j][k][m] = this.pawnsLinesTemp[i][j][k].x[l];
                         m++;
                     }
                     if (this.pawnsLinesTemp[i][j][k].y[l] != null) {
-                        (this.pawnsLines[i][j][k])[m] = this.pawnsLinesTemp[i][j][k].y[l];
+                        this.pawnsLines[i][j][k][m] = this.pawnsLinesTemp[i][j][k].y[l];
                         m++;
                     }
                     if (this.pawnsLinesTemp[i][j][k].z[l] != null) {
-                        (this.pawnsLines[i][j][k])[m] = this.pawnsLinesTemp[i][j][k].z[l];
+                        this.pawnsLines[i][j][k][m] = this.pawnsLinesTemp[i][j][k].z[l];
                         m++;
                     }
                     if (this.pawnsLinesTemp[i][j][k].xy[l] != null) {
-                        (this.pawnsLines[i][j][k])[m] = this.pawnsLinesTemp[i][j][k].xy[l];
+                        this.pawnsLines[i][j][k][m] = this.pawnsLinesTemp[i][j][k].xy[l];
                         m++;
                     }
                     if (this.pawnsLinesTemp[i][j][k].xmy[l] != null) {
-                        (this.pawnsLines[i][j][k])[m] = this.pawnsLinesTemp[i][j][k].xmy[l];
+                        this.pawnsLines[i][j][k][m] = this.pawnsLinesTemp[i][j][k].xmy[l];
                         m++;
                     }
                     if (this.pawnsLinesTemp[i][j][k].xz[l] != null) {
-                        (this.pawnsLines[i][j][k])[m] = this.pawnsLinesTemp[i][j][k].xz[l];
+                        this.pawnsLines[i][j][k][m] = this.pawnsLinesTemp[i][j][k].xz[l];
                         m++;
                     }
                     if (this.pawnsLinesTemp[i][j][k].xmz[l] != null) {
-                        (this.pawnsLines[i][j][k])[m] = this.pawnsLinesTemp[i][j][k].xmz[l];
+                        this.pawnsLines[i][j][k][m] = this.pawnsLinesTemp[i][j][k].xmz[l];
                         m++;
                     }
                     if (this.pawnsLinesTemp[i][j][k].yz[l] != null) {
-                        (this.pawnsLines[i][j][k])[m] = this.pawnsLinesTemp[i][j][k].yz[l];
+                        this.pawnsLines[i][j][k][m] = this.pawnsLinesTemp[i][j][k].yz[l];
                         m++;
                     }
                     if (this.pawnsLinesTemp[i][j][k].ymz[l] != null) {
-                        (this.pawnsLines[i][j][k])[m] = this.pawnsLinesTemp[i][j][k].ymz[l];
+                        this.pawnsLines[i][j][k][m] = this.pawnsLinesTemp[i][j][k].ymz[l];
                         m++;
                     }
                     if (this.pawnsLinesTemp[i][j][k].xyz[l] != null) {
-                        (this.pawnsLines[i][j][k])[m] = this.pawnsLinesTemp[i][j][k].xyz[l];
+                        this.pawnsLines[i][j][k][m] = this.pawnsLinesTemp[i][j][k].xyz[l];
                         m++;
                     }
                     if (this.pawnsLinesTemp[i][j][k].xymz[l] != null) {
-                        (this.pawnsLines[i][j][k])[m] = this.pawnsLinesTemp[i][j][k].xymz[l];
+                        this.pawnsLines[i][j][k][m] = this.pawnsLinesTemp[i][j][k].xymz[l];
                         m++;
                     }
                     if (this.pawnsLinesTemp[i][j][k].xmyz[l] != null) {
-                        (this.pawnsLines[i][j][k])[m] = this.pawnsLinesTemp[i][j][k].xmyz[l];
+                        this.pawnsLines[i][j][k][m] = this.pawnsLinesTemp[i][j][k].xmyz[l];
                         m++;
                     }
                     if (this.pawnsLinesTemp[i][j][k].xmymz[l] != null) {
-                        (this.pawnsLines[i][j][k])[m] = this.pawnsLinesTemp[i][j][k].xmymz[l];
+                        this.pawnsLines[i][j][k][m] = this.pawnsLinesTemp[i][j][k].xmymz[l];
                         m++;
                     }
 

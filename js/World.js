@@ -26,6 +26,9 @@ function World() {
         );
     };
 
+    // Create game
+    this.game = new Game();
+
     // Create scenes
     //this.testScene = new TestScene(this.engine, this.callback);
     //var physicsScene = new PhysicsScene(this.engine);

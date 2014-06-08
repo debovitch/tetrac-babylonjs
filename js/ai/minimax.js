@@ -1,4 +1,4 @@
-function Minimax() {
+function Minimax(game, moveCount) {
 
     this.feuille = [];
     this.ix = [];
@@ -6,14 +6,16 @@ function Minimax() {
 
     this.end = [];
 
-}
-
-Minimax.prototype.initWithGame = function(game, moveCount) {
-
     this.game = new Game();
     this.game.initWithPawns(game.pawns);
 
     this.playMoveCount = moveCount;
+
+    this.init();
+
+}
+
+Minimax.prototype.init = function() {
 
     for (var l=0; l<10; l++) {
 
@@ -39,7 +41,7 @@ Minimax.prototype.minimax = function(moveCount, player) {
     var minimum, maximum;
 
     sortie :
-    
+
     // Boucle sur les lignes
     for (var i=0; i<5; i++) {
 
