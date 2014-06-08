@@ -1,9 +1,12 @@
 function Game() {
 
+    this.id = null;
+
     this.pawns = [];
     this.h = [];
     this.win = [];
     this.play = [];
+
     this.newGame();
 
 }

@@ -176,27 +176,6 @@ TetradScene.prototype.createBoard = function(mesh) {
             this.shadowGenerator1.getShadowMap().renderList.push(square);
         }
     }
-/*
-    for (var i=0; i<5; i++) {
-        for (var j=0; j<5; j++) {
-            for (var k=0; k<4; k++) {
-                var pawn = this.pawn.clone("pawn" + i + j + k);
-                pawn.position.x = i * (this.pawnSize + this.xyGap);
-                pawn.position.y = 2 * this.squareHeight + k * (this.pawnSize + this.zGap);
-                pawn.position.z = j * (this.pawnSize + this.xyGap);
-                if ((i+j+k)%2) {
-                    pawn.material = app.world.tetradScene.yellowMaterial;
-                } else {
-                    pawn.material = app.world.tetradScene.redMaterial;
-                }
-                pawn.parent = this.board;
-                pawn.isVisible = true;
-                this.shadowGenerator1.getShadowMap().renderList.push(pawn);
-                this.mirrorMaterial.reflectionTexture.renderList.push(pawn);
-            }
-        }
-    }
-*/
 
 };
 
@@ -233,38 +212,105 @@ TetradScene.prototype.createSkybox = function() {
 
     skybox.material = skyboxMaterial;
 
-    /*
-    var sphereLight = BABYLON.Mesh.CreateSphere("lightSphere", 10, 2, this);
-    sphereLight.position = this.dirLight1.position;
-    sphereLight.material = this.yellowMaterial;
-    */
-
 };
 
 TetradScene.prototype.update = function() {
 
     var that = app.world.currentScene;
-    if (that.camera1.beta < 0.1) {
-        that.camera1.beta = 0.1;
-    } else if (that.camera1.beta > (Math.PI / 2) * 0.99) {
-        that.camera1.beta = (Math.PI / 2) * 0.99;
+
+    that.updateCamera();
+    //that.updatePawns();
+
+};
+
+TetradScene.prototype.updateCamera = function() {
+
+    if (this.camera1.beta < 0.1) {
+        this.camera1.beta = 0.1;
+    } else if (this.camera1.beta > (Math.PI / 2) * 0.99) {
+        this.camera1.beta = (Math.PI / 2) * 0.99;
     }
 
-    if (that.camera1.radius > 140) {
-        that.camera1.radius = 140;
-    } else if (that.camera1.radius < 10) {
-        that.camera1.radius = 10;
+    if (this.camera1.radius > 140) {
+        this.camera1.radius = 140;
+    } else if (this.camera1.radius < 10) {
+        this.camera1.radius = 10;
     }
+
+};
+
+TetradScene.prototype.createPawn = function(x, y, player) {
+
+    var pawn = this.pawn.clone("pawn" + x + y + this.game.h[x][y]);
+    pawn.position.x = x * (this.pawnSize + this.xyGap);
+    pawn.position.y = 2 * this.squareHeight + this.game.h[x][y] * (this.pawnSize + this.zGap);
+    pawn.position.z = y * (this.pawnSize + this.xyGap);
+    if (player == -1) {
+        pawn.material = app.world.tetradScene.yellowMaterial;
+    } else if (player == 1) {
+        pawn.material = app.world.tetradScene.redMaterial;
+    } else {
+        console.error("Bad value for player in TetradScene.createPawn method");
+    }
+    pawn.parent = this.board;
+    pawn.isVisible = true;
+    this.shadowGenerator1.getShadowMap().renderList.push(pawn);
+    this.mirrorMaterial.reflectionTexture.renderList.push(pawn);
 
 };
 
 TetradScene.prototype.readyToPlay = function() {
 
+    var that = this;
+
     Helper.sendRequest(
         '/new',
         function(response) {
             console.log("gameId : %i, x : %i, y : %i", response.gameId, response.x, response.y);
+            that.game.id = response.gameId;
+            that.play(response.x, response.y, -1);
         }
     );
+
+};
+
+TetradScene.prototype.play = function(x, y, player) {
+
+    var that = this;
+
+    this.game.putPawnAt(x, y, player);
+    this.createPawn(x, y, player);
+
+    if (player == 1) {
+        Helper.sendRequest(
+            '/gameId=' + this.game.id + '&move=' + x + y,
+            function(response) {
+                console.log("gameId : %i, x : %i, y : %i", response.gameId, response.x, response.y);
+                if (response.gameId != that.game.id) {
+                    console.error("Error, game id returned (%s) is different from current game one : %s", response.gameId, that.game.id);
+                }
+                that.play(response.x, response.y, -1);
+            }
+        );
+    }
+
+};
+
+TetradScene.prototype.meshHit = function(mesh) {
+
+    Helper.log("Mesh clicked");
+
+    var x, y;
+    if (mesh.name.substring(0, 6) == "square") {
+        x = parseInt(mesh.name.substring(6, 7));
+        y = parseInt(mesh.name.substring(7, 8));
+    } else if (mesh.name.substring(0, 4) == "cube") {
+        x = parseInt(mesh.name.substring(4, 5));
+        y = parseInt(mesh.name.substring(5, 6));
+    } else {
+        return;
+    }
+
+    this.play(x, y, 1);
 
 };

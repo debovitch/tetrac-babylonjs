@@ -31,21 +31,32 @@ function World() {
     this.game = new Game();
 
     // Create scenes
-    //this.testScene = new TestScene(this.engine, this.callback);
-    //var physicsScene = new PhysicsScene(this.engine);
-    //var blenderScene = new BlenderScene(this.engine);
-    //var skyboxScene = new SkyboxScene(this.engine, this.callback);
+    /*this.testScene = new TestScene(this.engine, this.callback);
+    var physicsScene = new PhysicsScene(this.engine);
+    var blenderScene = new BlenderScene(this.engine);
+    var skyboxScene = new SkyboxScene(this.engine, this.callback);*/
     this.tetradScene = new TetradScene(this.engine, this.game, this.callback);
 
     // Attach input events to active camera
     this.currentScene = this.tetradScene;
     this.currentScene.activeCamera.attachControl(this.canvas);
 
+    // Set click listener
+    window.addEventListener(
+        'click',
+        function(event) {
+            var pickResult = that.currentScene.pick(event.clientX, event.clientY);
+            if (pickResult.hit) {
+                that.currentScene.meshHit(pickResult.pickedMesh);
+            }
+        }
+    );
+
     // Set resize event callback
     window.addEventListener(
         'resize',
         function () {
-            app.world.engine.resize();
+            that.engine.resize();
         }
     );
 

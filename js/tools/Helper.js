@@ -171,6 +171,15 @@ Helper.argminY = function(tab) {
     
 };
 
+Helper.log = function(message, obj) {
+
+    console.log(message);
+    if (obj) {
+        console.log(JSON.stringify(obj, null, '\t'));
+    }
+
+};
+
 Helper.logVector = function(vector) {
 
     for (var i=0; i<vector.length; i++) {
