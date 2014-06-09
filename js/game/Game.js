@@ -135,7 +135,7 @@ Game.prototype.removePawnAt = function(x, y) {
 
 };
 
-Game.prototype.playPawnAtX = function(x, y, player) {
+Game.prototype.playPawnAt = function(x, y, player) {
 
     // Si la colonne est disponible
     if (this.h[x][y] < 4) {

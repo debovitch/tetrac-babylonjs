@@ -278,8 +278,8 @@ TetradScene.prototype.play = function(x, y, player) {
 
     var that = this;
 
-    this.game.putPawnAt(x, y, player);
     this.createPawn(x, y, player);
+    this.game.playPawnAt(x, y, player);
 
     if (player == 1) {
         Helper.sendRequest(
@@ -304,7 +304,7 @@ TetradScene.prototype.meshHit = function(mesh) {
     if (mesh.name.substring(0, 6) == "square") {
         x = parseInt(mesh.name.substring(6, 7));
         y = parseInt(mesh.name.substring(7, 8));
-    } else if (mesh.name.substring(0, 4) == "cube") {
+    } else if (mesh.name.substring(0, 4) == "pawn") {
         x = parseInt(mesh.name.substring(4, 5));
         y = parseInt(mesh.name.substring(5, 6));
     } else {
