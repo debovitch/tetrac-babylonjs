@@ -21,19 +21,6 @@ function World() {
     this.callback = function() {
         that.engine.runRenderLoop(
             function() {
-<<<<<<< HEAD
-                app.world.currentScene.render();
-            }
-        );
-    };
-
-    // Create scenes
-    //this.testScene = new TestScene(this.engine, this.callback);
-    //var physicsScene = new PhysicsScene(this.engine);
-    //var blenderScene = new BlenderScene(this.engine);
-    //var skyboxScene = new SkyboxScene(this.engine, this.callback);
-    this.tetradScene = new TetradScene(this.engine, this.callback);
-=======
                 that.currentScene.render();
             }
         );
@@ -49,14 +36,11 @@ function World() {
     var blenderScene = new BlenderScene(this.engine);
     var skyboxScene = new SkyboxScene(this.engine, this.callback);*/
     this.tetradScene = new TetradScene(this.engine, this.game, this.callback);
->>>>>>> daa51d3103871e37a7400220136dfd555d9c0514
 
     // Attach input events to active camera
     this.currentScene = this.tetradScene;
     this.currentScene.activeCamera.attachControl(this.canvas);
 
-<<<<<<< HEAD
-=======
     // Set click listener
     window.addEventListener(
         'click',
@@ -68,7 +52,6 @@ function World() {
         }
     );
 
->>>>>>> daa51d3103871e37a7400220136dfd555d9c0514
     // Set resize event callback
     window.addEventListener(
         'resize',
