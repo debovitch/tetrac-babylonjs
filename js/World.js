@@ -2,6 +2,8 @@ function World() {
 
     var that = this;
 
+    BABYLON.Engine.ShadersRepository = "/js/vendor/babylonjs/Shaders/";
+
     // Get canvas element
     this.canvas = document.getElementById("renderCanvas");
 
@@ -11,27 +13,35 @@ function World() {
         return;
     }
 
-    // Babylon
+    // Attach canvas to Babylon engine
     this.engine = new BABYLON.Engine(this.canvas, true);
+    this.engine.runEvenInBackground = false;
 
-    // Creating test scene
-    var testScene = new TestScene(this.engine);
-    testScene.activeCamera.attachControl(this.canvas);
+    // Create render loop when scene is loaded
+    this.callback = function() {
+        that.engine.runRenderLoop(
+            function() {
+                app.world.currentScene.render();
+            }
+        );
+    };
 
-    this.currentScene = testScene;
+    // Create scenes
+    //this.testScene = new TestScene(this.engine, this.callback);
+    //var physicsScene = new PhysicsScene(this.engine);
+    //var blenderScene = new BlenderScene(this.engine);
+    //var skyboxScene = new SkyboxScene(this.engine, this.callback);
+    this.tetradScene = new TetradScene(this.engine, this.callback);
 
-    // Once the scene is loaded, just register a render loop to render it
-    this.engine.runRenderLoop(
-        function() {
-            that.currentScene.render();
-        }
-    );
+    // Attach input events to active camera
+    this.currentScene = this.tetradScene;
+    this.currentScene.activeCamera.attachControl(this.canvas);
 
-    // Resize
+    // Set resize event callback
     window.addEventListener(
         'resize',
         function () {
-            that.engine.resize();
+            app.world.engine.resize();
         }
     );
 
