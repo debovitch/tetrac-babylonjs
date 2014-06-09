@@ -21,6 +21,7 @@
             "emissive": [0.0000, 0.0000, 0.0000],
             "alpha": 1.0000,
             "backFaceCulling": true
+<<<<<<< HEAD
         },
         {
             "name": "plateMat",
@@ -32,6 +33,8 @@
             "emissive": [0.0000, 0.0000, 0.0000],
             "alpha": 1.0000,
             "backFaceCulling": true
+=======
+>>>>>>> daa51d3103871e37a7400220136dfd555d9c0514
         }
     ],
     "meshes": [
@@ -63,6 +66,7 @@
             ]
         },
         {
+<<<<<<< HEAD
             "name": "plate",
             "id": "plate",
             "materialId": "plateMat",
@@ -90,6 +94,8 @@
             ]
         },
         {
+=======
+>>>>>>> daa51d3103871e37a7400220136dfd555d9c0514
             "name": "cube000",
             "id": "cube000",
             "materialId": "redMat",

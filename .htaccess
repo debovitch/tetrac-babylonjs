@@ -175,9 +175,6 @@ ErrorDocument 404 /404.html
     AddType text/vtt                                    vtt
     AddType text/x-component                            htc
     AddType text/x-vcard                                vcf
-    AddType application/fx                              fx
-    AddType application/babylon                         babylon
-    AddType application/babylonmeshdata                 babylonmeshdata
 
 </IfModule>
 
