@@ -1,10 +1,6 @@
 function GameLines() {
 
-    this.boardLines = {
-        x : [], y : [], z : [],
-        xy : [], xmy : [], xz : [], xmz : [], yz : [], ymz : [],
-        xyz : [], xymz : [], xmyz : [], xmymz : []
-    };
+    this.boardLines = new BoardLines();
     this.pawnsLinesTemp = [];
     this.count = [];
     this.pawnsLines = [];
@@ -15,81 +11,12 @@ function GameLines() {
 
 GameLines.prototype.build = function() {
 
-    this.setBoardLines();
     this.setPawnsLinesTemp();
     this.countLines();
     this.setPawnsLines();
 
-};
+    this.boardLines.log();
 
-GameLines.prototype.setBoardLines = function() {
-
-    // Init x and y board lines
-    for (var i=0; i<5; i++) {
-        this.boardLines.x[i] = [];
-        for (var j=0; j<2; j++) {
-            this.boardLines.x[i][j] = [];
-            for (var k=0; k<4; k++) {
-                this.boardLines.x[i][j][k] = 0;
-            }
-        }
-    }
-
-    for (var i=0; i<2; i++) {
-        this.boardLines.y[i] = [];
-        for (var j=0; j<5; j++) {
-            this.boardLines.y[i][j] = [];
-            for (var k=0; k<4; k++) {
-                this.boardLines.y[i][j][k] = 0;
-            }
-        }
-    }
-
-    // Init z board lines
-    for (var i=0; i<5; i++) {
-        this.boardLines.z[i] = [];
-        for (var j=0; j<5; j++) {
-            this.boardLines.z[i][j] = 0;
-        }
-    }
-
-    // Init xy, xmy board lines
-    for (var k=0; k<4; k++) {
-        this.boardLines.xy[k] = [];
-        this.boardLines.xmy[k] = [];
-        for (var l=0; l<4; l++) {
-            this.boardLines.xy[k][l] = 0;
-            this.boardLines.xmy[k][l] = 0;
-        }
-    }
-
-    // Init xz, xmz board lines
-    for (var i=0; i<2; i++) {
-        this.boardLines.xz[i] = [];
-        this.boardLines.xmz[i] = [];
-        for (var j=0; j<5; j++) {
-            this.boardLines.xz[i][j] = 0;
-            this.boardLines.xmz[i][j] = 0;
-        }
-    }
-
-    // Init yz, ymz board lines
-    for (var i=0; i<5; i++) {
-        this.boardLines.yz[i] = [];
-        this.boardLines.ymz[i] = [];
-        for (var j=0; j<2; j++) {
-            this.boardLines.yz[i][j] = 0;
-            this.boardLines.ymz[i][j] = 0;
-        }
-    }
-
-    // Init xyz, xymz, xmyz, xmymz board lines
-    for (var l=0; l<4; l++) {
-        this.boardLines.xyz[l] = 0;
-        this.boardLines.xymz[l] = 0;
-        this.boardLines.xmyz[l] = 0;
-        this.boardLines.xmymz[l] = 0;
-    }
 };
 
 GameLines.prototype.setPawnsLinesTemp = function() {
@@ -487,14 +414,6 @@ GameLines.prototype.setPawnsLines = function() {
 
 GameLines.prototype.log = function() {
 
-};
-
-GameLines.prototype.logBoardLines = function() {
-
-};
-
-GameLines.prototype.log = function() {
-
     for (var i=0; i<5; i++) {
         for (var j=0; j<5; j++) {
             for (var k=0; k<4; k++) {
@@ -515,8 +434,8 @@ GameLines.prototype.logBoardLines = function() {
     }
 
     // Log y board lines
-    for (var i=0; i<5; i++) {
-        for (var j=0; j<2; j++) {
+    for (var i=0; i<2; i++) {
+        for (var j=0; j<5; j++) {
             console.log("boardLines.y[%d][%d][0] = %d, [%d][%d][1] = %d, [%d][%d][2] = %d, [%d][%d][3] = %d\n", i, j, this.boardLines.y[i][j][0], i, j, this.boardLines.y[i][j][1], i, j, this.boardLines.y[i][j][2], i, j, this.boardLines.y[i][j][3]);
         }
     }

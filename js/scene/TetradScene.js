@@ -1,9 +1,14 @@
-function TetradScene(engine, game, callback) {
+function TetradScene(engine, callback) {
 
     BABYLON.Scene.call(this, engine);
 
     this.engine = engine;
-    this.game = game;
+
+    this.menu = new Menu();
+    this.menu.setMode(Mode.TWOPLAYERSOFFLINE);
+
+    this.game = new Game();
+
     this.callback = callback;
 
     this.clearColor = new BABYLON.Vector3(0.2, 0.2, 0.2);
@@ -263,14 +268,28 @@ TetradScene.prototype.readyToPlay = function() {
 
     var that = this;
 
-    Helper.sendRequest(
-        '/new',
-        function(response) {
-            console.log("gameId : %i, x : %i, y : %i", response.gameId, response.x, response.y);
-            that.game.id = response.gameId;
-            that.play(response.x, response.y, -1);
+    for (var i=0; i<5; i++) {
+        for (var j=0; j<5; j++) {
+            for (var k=0; k<4; k++) {
+                if (this.game.pawns[i][j][k] != 0) {
+                    this.createPawn(i, j, this.game.pawns[i][j][k]);
+                }
+            }
         }
-    );
+    }
+
+    if (this.menu.mode == Mode.ONEPLAYERONLINE) {
+
+        Helper.sendRequest(
+            '/new',
+            function(response) {
+                console.log("gameId : %i, x : %i, y : %i", response.gameId, response.x, response.y);
+                that.game.id = response.gameId;
+                that.play(response.x, response.y, -1);
+            }
+        );
+
+    }
 
 };
 
@@ -278,27 +297,53 @@ TetradScene.prototype.play = function(x, y, player) {
 
     var that = this;
 
-    this.createPawn(x, y, player);
-    this.game.playPawnAt(x, y, player);
+    // Si la colonne est disponible
+    if (this.game.h[x][y] < 4) {
 
-    if (player == 1) {
-        Helper.sendRequest(
-            '/gameId=' + this.game.id + '&move=' + x + y,
-            function(response) {
-                console.log("gameId : %i, x : %i, y : %i", response.gameId, response.x, response.y);
-                if (response.gameId != that.game.id) {
-                    console.error("Error, game id returned (%s) is different from current game one : %s", response.gameId, that.game.id);
+        this.createPawn(x, y, player);
+
+        // Pose le pion et teste le gain
+        if (this.game.putPawnAt(x, y, player)) {
+            console.log("C'est gagné !");
+        }
+
+        this.game.h[x][y]++;
+        this.game.counter++;
+
+        if (this.game.counter == 100) {
+            this.game.end = true;
+        }
+
+        this.menu.player *= -1;
+
+    }
+
+    if (this.menu.mode == Mode.ONEPLAYERONLINE) {
+
+        if (player == 1) {
+            Helper.sendRequest(
+                '/gameId=' + this.game.id + '&move=' + x + y,
+                function(response) {
+                    console.log("gameId : %i, x : %i, y : %i", response.gameId, response.x, response.y);
+                    if (response.gameId != that.game.id) {
+                        console.error("Error, game id returned (%s) is different from current game one : %s", response.gameId, that.game.id);
+                    }
+                    if (response.x != -1) {
+                        that.play(response.x, response.y, -1);
+                    } else {
+                        console.log("Game over, you win !");
+                    }
                 }
-                that.play(response.x, response.y, -1);
-            }
-        );
+            );
+        }
+
     }
 
 };
 
 TetradScene.prototype.meshHit = function(mesh) {
 
-    Helper.log("Mesh clicked");
+    //Helper.log("Mesh clicked");
 
     var x, y;
     if (mesh.name.substring(0, 6) == "square") {
@@ -311,6 +356,6 @@ TetradScene.prototype.meshHit = function(mesh) {
         return;
     }
 
-    this.play(x, y, 1);
+    this.play(x, y, this.menu.player);
 
 };

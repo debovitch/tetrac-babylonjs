@@ -61,8 +61,8 @@ Game.prototype.newGame = function() {
 
 };
 
-Game.prototype.initWithPawns = function(matrix)
-{
+Game.prototype.initWithPawns = function(matrix) {
+
     this.gameLines = new GameLines();
 
     this.finOrdi = false; this.end = false; this.continuer = true; this.firstPlayer = true;
@@ -71,9 +71,11 @@ Game.prototype.initWithPawns = function(matrix)
     this.counter = 0;
 
     for (var i=0; i<5; i++) {
+
         this.h[i] = [];
         this.win[i] = [];
         this.play[i] = [];
+
         for (var j=0; j<5; j++) {
 
             this.h[i][j] = 0;
@@ -104,6 +106,7 @@ Game.prototype.initWithPawns = function(matrix)
             }
 
         }
+
     }
 
 };
@@ -135,23 +138,62 @@ Game.prototype.removePawnAt = function(x, y) {
 
 };
 
-Game.prototype.playPawnAt = function(x, y, player) {
-
-    // Si la colonne est disponible
-    if (this.h[x][y] < 4) {
-
-        // Pose le pion et teste le gain
-        if (this.putPawnAt(x, y, player)) {
-            console.log("C'est gagné !");
-        }
-
-        this.h[x][y]++;
-        this.counter++;
-
-        if (this.counter == 100) {
-            this.end = true;
-        }
-
-    }
-
-};
+/*
+ boardLines.x[0][0][0] = 0, [0][0][1] = 0, [0][0][2] = 0, [0][0][3] = 0
+ 892 boardLines.x[0][1][0] = 0, [0][1][1] = 0, [0][1][2] = 0, [0][1][3] = 0
+ 892 boardLines.x[1][0][0] = 0, [1][0][1] = 0, [1][0][2] = 0, [1][0][3] = 0
+ 893 boardLines.x[1][1][0] = 0, [1][1][1] = 0, [1][1][2] = 0, [1][1][3] = 0
+ 893 boardLines.x[2][0][0] = 0, [2][0][1] = 0, [2][0][2] = 0, [2][0][3] = 0
+ 894 boardLines.x[2][1][0] = 0, [2][1][1] = 0, [2][1][2] = 0, [2][1][3] = 0
+ 894 boardLines.x[3][0][0] = 0, [3][0][1] = 0, [3][0][2] = 0, [3][0][3] = 0
+ 895 boardLines.x[3][1][0] = 0, [3][1][1] = 0, [3][1][2] = 0, [3][1][3] = 0
+ 895 boardLines.x[4][0][0] = 0, [4][0][1] = 0, [4][0][2] = 0, [4][0][3] = 0
+ 896 boardLines.x[4][1][0] = 0, [4][1][1] = 0, [4][1][2] = 0, [4][1][3] = 0
+ 897 boardLines.y[0][0][0] = 0, [0][0][1] = 0, [0][0][2] = 0, [0][0][3] = 0
+ 897 boardLines.y[0][1][0] = 0, [0][1][1] = 0, [0][1][2] = 0, [0][1][3] = 0
+ 898 boardLines.y[1][0][0] = 0, [1][0][1] = 0, [1][0][2] = 0, [1][0][3] = 0
+ 899 boardLines.y[1][1][0] = 0, [1][1][1] = 0, [1][1][2] = 0, [1][1][3] = 0
+ 899 boardLines.y[2][0][0] = 0, [2][0][1] = 0, [2][0][2] = 0, [2][0][3] = 0
+ 900 boardLines.y[2][1][0] = 0, [2][1][1] = 0, [2][1][2] = 0, [2][1][3] = 0
+ 901 boardLines.y[3][0][0] = 0, [3][0][1] = 0, [3][0][2] = 0, [3][0][3] = 0
+ 901 boardLines.y[3][1][0] = 0, [3][1][1] = 0, [3][1][2] = 0, [3][1][3] = 0
+ 901 boardLines.y[4][0][0] = 0, [4][0][1] = 0, [4][0][2] = 0, [4][0][3] = 0
+ 902 boardLines.y[4][1][0] = 0, [4][1][1] = 0, [4][1][2] = 0, [4][1][3] = 0
+ 902 boardLines.z[0][0] = 0, [1][0] = 0, [2][0] = 0, [3][0] = 0, [4][0] = 0
+ 903 boardLines.z[0][1] = 0, [1][1] = 0, [2][1] = 0, [3][1] = 0, [4][1] = 0
+ 904 boardLines.z[0][2] = 0, [1][2] = 0, [2][2] = 0, [3][2] = 0, [4][2] = 0
+ 904 boardLines.z[0][3] = 0, [1][3] = 0, [2][3] = 0, [3][3] = 0, [4][3] = 0
+ 905 boardLines.z[0][4] = 0, [1][4] = 0, [2][4] = 0, [3][4] = 0, [4][4] = 0
+ 905 boardLines.xy[0][0] = 0, [0][1] = 0, [0][2] = 0, [0][3] = 0
+ 906 boardLines.xy[1][0] = 0, [1][1] = 0, [1][2] = 0, [1][3] = 0
+ 907 boardLines.xy[2][0] = 0, [2][1] = 0, [2][2] = 0, [2][3] = 0
+ 907 boardLines.xy[3][0] = 0, [3][1] = 0, [3][2] = 0, [3][3] = 0
+ 908 boardLines.xmy[0][0] = 0, [0][1] = 0, [0][2] = 0, [0][3] = 0
+ 908 boardLines.xmy[1][0] = 0, [1][1] = 0, [1][2] = 0, [1][3] = 0
+ 909 boardLines.xmy[2][0] = 0, [2][1] = 0, [2][2] = 0, [2][3] = 0
+ 909 boardLines.xmy[3][0] = 0, [3][1] = 0, [3][2] = 0, [3][3] = 0
+ 910 boardLines.xz[0][0] = 0, [1][0] = 0
+ 910 boardLines.xz[0][1] = 0, [1][1] = 0
+ 911 boardLines.xz[0][2] = 0, [1][2] = 0
+ 911 boardLines.xz[0][3] = 0, [1][3] = 0
+ 912 boardLines.xz[0][4] = 0, [1][4] = 0
+ 912 boardLines.xmz[0][0] = 0, [1][0] = 0
+ 913 boardLines.xmz[0][1] = 0, [1][1] = 0
+ 913 boardLines.xmz[0][2] = 0, [1][2] = 0
+ 914 boardLines.xmz[0][3] = 0, [1][3] = 0
+ 914 boardLines.xmz[0][4] = 0, [1][4] = 0
+ 915 boardLines.yz[0][0] = 0, [0][1] = 0
+ 915 boardLines.yz[1][0] = 0, [1][1] = 0
+ 916 boardLines.yz[2][0] = 0, [2][1] = 0
+ 916 boardLines.yz[3][0] = 0, [3][1] = 0
+ 917 boardLines.yz[4][0] = 0, [4][1] = 0
+ 918 boardLines.ymz[0][0] = 0, [0][1] = 0
+ 918 boardLines.ymz[1][0] = 0, [1][1] = 0
+ 919 boardLines.ymz[2][0] = 0, [2][1] = 0
+ 919 boardLines.ymz[3][0] = 0, [3][1] = 0
+ 920 boardLines.ymz[4][0] = 0, [4][1] = 0
+ 920 boardLines.xyz[0] = 0, [1] = 0, [2] = 0, [3] = 0
+ 921 boardLines.xymz[0] = 0, [1] = 0, [2] = 0, [3] = 0
+ 921 boardLines.xmyz[0] = 0, [1] = 0, [2] = 0, [3] = 0
+ 922 boardLines.xmymz[0] = 0, [1] = 0, [2] = 0, [3] = 0
+ */
