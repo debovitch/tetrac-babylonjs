@@ -317,6 +317,8 @@ TetradScene.prototype.play = function(x, y, player) {
 
         this.menu.player *= -1;
 
+        this.game.gameLines.logPawnLines(0, 3, 0);
+
     }
 
     if (this.menu.mode == Mode.ONEPLAYERONLINE) {
