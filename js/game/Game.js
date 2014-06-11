@@ -93,7 +93,7 @@ Game.prototype.initWithPawns = function(matrix) {
 
                     // Update game lines
                     for (var l=0; l<this.gameLines.count[i][j][k]; l++) {
-                        this.gameLines.pawnsLines[i][j][k][l] += this.pawns[i][j][k];
+                        this.gameLines.pawnsLines[i][j][k][l].v += this.pawns[i][j][k];
                     }
 
                     // Update game state
@@ -118,8 +118,8 @@ Game.prototype.putPawnAt = function(x, y, player) {
     this.pawns[x][y][this.h[x][y]] = player;
 
     for (var l=0; l<this.gameLines.count[x][y][this.h[x][y]]; l++) {
-        this.gameLines.pawnsLines[x][y][this.h[x][y]][l] += player;
-        if (this.gameLines.pawnsLines[x][y][this.h[x][y]][l] == 4 * player) {
+        this.gameLines.pawnsLines[x][y][this.h[x][y]][l].v += player;
+        if (this.gameLines.pawnsLines[x][y][this.h[x][y]][l].v == 4 * player) {
             winner = true;
         }
     }
@@ -131,7 +131,7 @@ Game.prototype.putPawnAt = function(x, y, player) {
 Game.prototype.removePawnAt = function(x, y) {
 
     for (var l=0; l<this.gameLines.count[x][y][this.h[x][y]]; l++) {
-        this.gameLines.pawnsLines[x][y][this.h[x][y]][l] -= this.pawns[x][y][this.h[x][y]];
+        this.gameLines.pawnsLines[x][y][this.h[x][y]][l].v -= this.pawns[x][y][this.h[x][y]];
     }
 
     this.pawns[x][y][this.h[x][y]] = 0;

@@ -7,10 +7,6 @@ function GameLines() {
     
     this.build();
 
-    console.log("PawnsLinesTemp[0][3][0] : ");
-    this.pawnsLinesTemp[0][3][0].log();
-    this.logPawnsLines(0, 3, 0);
-
 }
 
 GameLines.prototype.build = function() {
@@ -405,12 +401,24 @@ GameLines.prototype.logLinesCount = function() {
 
 };
 
-GameLines.prototype.logPawnsLines = function(x, y, z) {
+GameLines.prototype.logPawnLines = function(x, y, z) {
 
     var log = "pawnsLines[" + x + "][" + y + "][" + z + "] : ";
     for (var l=0; l<this.count[x][y][z]; l++) {
-        log += this.pawnsLines[x][y][z][l] + ",";
+        log += this.pawnsLines[x][y][z][l].v + ",";
     }
     console.log(log.substring(0, log.length - 1));
+
+};
+
+GameLines.prototype.logPawnsLines = function() {
+
+    for (var i=0; i<5; i++) {
+        for (var j=0; j<5; j++) {
+            for (var k=0; k<4; k++) {
+                this.logPawnLines(i, j, k);
+            }
+        }
+    }
 
 };
