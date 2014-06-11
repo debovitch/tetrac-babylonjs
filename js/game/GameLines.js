@@ -6,7 +6,9 @@ function GameLines() {
     this.pawnsLines = [];
     
     this.build();
-    
+
+    //this.logPawnLines(0, 0, 0);
+
 }
 
 GameLines.prototype.build = function() {
@@ -14,8 +16,6 @@ GameLines.prototype.build = function() {
     this.setPawnsLinesTemp();
     this.countLines();
     this.setPawnsLines();
-
-    this.boardLines.log();
 
 };
 
@@ -27,28 +27,7 @@ GameLines.prototype.setPawnsLinesTemp = function() {
         for (var j=0; j<5; j++) {
             this.pawnsLinesTemp[i][j] = [];
             for (var k=0; k<4; k++) {
-                this.pawnsLinesTemp[i][j][k] = {
-                    x : [], y : [], z : [],
-                    xy : [], xmy : [], xz : [], xmz : [], yz : [], ymz : [],
-                    xyz : [], xymz : [], xmyz : [], xmymz : []
-                };
-                for (var l=0; l<4; l++) {
-
-                    this.pawnsLinesTemp[i][j][k].x[l]        = null;
-                    this.pawnsLinesTemp[i][j][k].y[l]        = null;
-                    this.pawnsLinesTemp[i][j][k].z[l]        = null;
-                    this.pawnsLinesTemp[i][j][k].xy[l]       = null;
-                    this.pawnsLinesTemp[i][j][k].xmy[l]      = null;
-                    this.pawnsLinesTemp[i][j][k].xz[l]       = null;
-                    this.pawnsLinesTemp[i][j][k].xmz[l]      = null;
-                    this.pawnsLinesTemp[i][j][k].yz[l]       = null;
-                    this.pawnsLinesTemp[i][j][k].ymz[l]      = null;
-                    this.pawnsLinesTemp[i][j][k].xyz[l]      = null;
-                    this.pawnsLinesTemp[i][j][k].xymz[l]     = null;
-                    this.pawnsLinesTemp[i][j][k].xmyz[l]     = null;
-                    this.pawnsLinesTemp[i][j][k].xmymz[l]    = null;
-
-                }
+                this.pawnsLinesTemp[i][j][k] = new PawnLines();
             }
         }
     }
@@ -412,7 +391,7 @@ GameLines.prototype.setPawnsLines = function() {
 
 };
 
-GameLines.prototype.log = function() {
+GameLines.prototype.logLinesCount = function() {
 
     for (var i=0; i<5; i++) {
         for (var j=0; j<5; j++) {
@@ -424,67 +403,12 @@ GameLines.prototype.log = function() {
 
 };
 
-GameLines.prototype.logBoardLines = function() {
+GameLines.prototype.logPawnLines = function(x, y, z) {
 
-    // Log x board lines
-    for (var i=0; i<5; i++) {
-        for (var j=0; j<2; j++) {
-            console.log("boardLines.x[%d][%d][0] = %d, [%d][%d][1] = %d, [%d][%d][2] = %d, [%d][%d][3] = %d\n", i, j, this.boardLines.x[i][j][0], i, j, this.boardLines.x[i][j][1], i, j, this.boardLines.x[i][j][2], i, j, this.boardLines.x[i][j][3]);
-        }
+    console.log("pawnLines[%d][%d][%d] : ", x, y, z);
+    for (var l=0; l<this.count[x][y][z]; l++) {
+        console.log("\t\t%d,", this.pawnsLines[x][y][z][l]);
     }
-
-    // Log y board lines
-    for (var i=0; i<2; i++) {
-        for (var j=0; j<5; j++) {
-            console.log("boardLines.y[%d][%d][0] = %d, [%d][%d][1] = %d, [%d][%d][2] = %d, [%d][%d][3] = %d\n", i, j, this.boardLines.y[i][j][0], i, j, this.boardLines.y[i][j][1], i, j, this.boardLines.y[i][j][2], i, j, this.boardLines.y[i][j][3]);
-        }
-    }
-
-    // Log z board lines
-    for (var j=0; j<5; j++) {
-        console.log("boardLines.z[0][%d] = %d, [1][%d] = %d, [2][%d] = %d, [3][%d] = %d, [4][%d] = %d\n", j, this.boardLines.z[0][j], j, this.boardLines.z[1][j], j, this.boardLines.z[2][j], j, this.boardLines.z[3][j], j, this.boardLines.z[4][j]);
-    }
-
-    // Log xy board lines
-    for (var k=0; k<4; k++) {
-        console.log("boardLines.xy[%d][0] = %d, [%d][1] = %d, [%d][2] = %d, [%d][3] = %d\n", k, this.boardLines.xy[k][0], k, this.boardLines.xy[k][1], k, this.boardLines.xy[k][2], k, this.boardLines.xy[k][3]);
-    }
-
-    // Log xmy board lines
-    for (var k=0; k<4; k++) {
-        console.log("boardLines.xmy[%d][0] = %d, [%d][1] = %d, [%d][2] = %d, [%d][3] = %d\n", k, this.boardLines.xmy[k][0], k, this.boardLines.xmy[k][1], k, this.boardLines.xmy[k][2], k, this.boardLines.xmy[k][3]);
-    }
-
-    // Log xz board lines
-    for (var j=0; j<5; j++) {
-        console.log("boardLines.xz[0][%d] = %d, [1][%d] = %d\n", j, this.boardLines.xz[0][j], j, this.boardLines.xz[1][j]);
-    }
-
-    // Log xmz board lines
-    for (var j=0; j<5; j++) {
-        console.log("boardLines.xmz[0][%d] = %d, [1][%d] = %d\n", j, this.boardLines.xmz[0][j], j, this.boardLines.xmz[1][j]);
-    }
-
-    // Log yz board lines
-    for (var i=0; i<5; i++) {
-        console.log("boardLines.yz[%d][0] = %d, [%d][1] = %d\n", i, this.boardLines.yz[i][0], i, this.boardLines.yz[i][1]);
-    }
-
-    // Log ymz board lines
-    for (var i=0; i<5; i++) {
-        console.log("boardLines.ymz[%d][0] = %d, [%d][1] = %d\n", i, this.boardLines.ymz[i][0], i, this.boardLines.ymz[i][1]);
-    }
-
-    // Log xyz board lines
-    console.log("boardLines.xyz[0] = %d, [1] = %d, [2] = %d, [3] = %d\n", this.boardLines.xyz[0], this.boardLines.xyz[1], this.boardLines.xyz[2], this.boardLines.xyz[3]);
-
-    // Log xymz board lines
-    console.log("boardLines.xymz[0] = %d, [1] = %d, [2] = %d, [3] = %d\n", this.boardLines.xymz[0], this.boardLines.xymz[1], this.boardLines.xymz[2], this.boardLines.xymz[3]);
-
-    // Log xmyz board lines
-    console.log("boardLines.xmyz[0] = %d, [1] = %d, [2] = %d, [3] = %d\n", this.boardLines.xmyz[0], this.boardLines.xmyz[1], this.boardLines.xmyz[2], this.boardLines.xmyz[3]);
-
-    // Log xmymz board lines
-    console.log("boardLines.xmymz[0] = %d, [1] = %d, [2] = %d, [3] = %d\n", this.boardLines.xmymz[0], this.boardLines.xmymz[1], this.boardLines.xmymz[2], this.boardLines.xmymz[3]);
+    console.log("\n");
 
 };

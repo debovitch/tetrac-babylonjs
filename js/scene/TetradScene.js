@@ -244,11 +244,11 @@ TetradScene.prototype.updateCamera = function() {
 
 };
 
-TetradScene.prototype.createPawn = function(x, y, player) {
+TetradScene.prototype.createPawn = function(x, y, z, player) {
 
-    var pawn = this.pawn.clone("pawn" + x + y + this.game.h[x][y]);
+    var pawn = this.pawn.clone("pawn" + x + y + z);
     pawn.position.x = x * (this.pawnSize + this.xyGap);
-    pawn.position.y = 2 * this.squareHeight + this.game.h[x][y] * (this.pawnSize + this.zGap);
+    pawn.position.y = 2 * this.squareHeight + z * (this.pawnSize + this.zGap);
     pawn.position.z = y * (this.pawnSize + this.xyGap);
     if (player == -1) {
         pawn.material = app.world.tetradScene.yellowMaterial;
@@ -272,7 +272,8 @@ TetradScene.prototype.readyToPlay = function() {
         for (var j=0; j<5; j++) {
             for (var k=0; k<4; k++) {
                 if (this.game.pawns[i][j][k] != 0) {
-                    this.createPawn(i, j, this.game.pawns[i][j][k]);
+                    this.createPawn(i, j, k, this.game.pawns[i][j][k]);
+                    this.menu.player *= -1;
                 }
             }
         }
@@ -300,7 +301,7 @@ TetradScene.prototype.play = function(x, y, player) {
     // Si la colonne est disponible
     if (this.game.h[x][y] < 4) {
 
-        this.createPawn(x, y, player);
+        this.createPawn(x, y, this.game.h[x][y], player);
 
         // Pose le pion et teste le gain
         if (this.game.putPawnAt(x, y, player)) {
