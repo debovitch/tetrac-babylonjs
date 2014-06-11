@@ -21,8 +21,8 @@ Game.prototype.newGame = function() {
                         [
                             [   0,  0,  0,  0,  0   ],
                             [   0,  0,  0,  0,  0   ],
-                            [   0,  0,  0,  0,  0   ],
-                            [   0,  0,  0,  0,  0   ]   //      y = 0           0   5   10  15  20
+                            [   -1,  0,  0,  0,  0   ],
+                            [   1,  1,  1,  0,  0   ]   //      y = 0           0   5   10  15  20
                         ], [
                         [   0,  0,  0,  0,  0   ],
                         [   0,  0,  0,  0,  0   ],
@@ -32,7 +32,7 @@ Game.prototype.newGame = function() {
                     [   0,  0,  0,  0,  0   ],
                     [   0,  0,  0,  0,  0   ],
                     [   0,  0,  0,  0,  0   ],
-                    [   0,  0,  0,  0,  0   ]   //      y = 2           2   7   12  17  22
+                    [   0,  0,  0,  -1,  0   ]   //      y = 2           2   7   12  17  22
                 ], [
                 [   0,  0,  0,  0,  0   ],
                 [   0,  0,  0,  0,  0   ],
@@ -42,7 +42,7 @@ Game.prototype.newGame = function() {
             [   0,  0,  0,  0,  0   ],
             [   0,  0,  0,  0,  0   ],
             [   0,  0,  0,  0,  0   ],
-            [   0,  0,  0,  0,  0   ]   //      y = 4           4   9   14  19  24
+            [   0,  0,  -1,  0,  0   ]   //      y = 4           4   9   14  19  24
         ]
 
     ];
@@ -52,7 +52,7 @@ Game.prototype.newGame = function() {
         for (var j=0; j<5; j++) {
             this.pawns[i][j] = [];
             for (var k=0; k<4; k++) {
-                this.pawns[i][j][k] = matrice[j][3-k][i];
+                this.pawns[i][j][k] = matrice[i][3-k][j];
             }
         }
     }
@@ -61,8 +61,8 @@ Game.prototype.newGame = function() {
 
 };
 
-Game.prototype.initWithPawns = function(matrix)
-{
+Game.prototype.initWithPawns = function(matrix) {
+
     this.gameLines = new GameLines();
 
     this.finOrdi = false; this.end = false; this.continuer = true; this.firstPlayer = true;
@@ -71,9 +71,11 @@ Game.prototype.initWithPawns = function(matrix)
     this.counter = 0;
 
     for (var i=0; i<5; i++) {
+
         this.h[i] = [];
         this.win[i] = [];
         this.play[i] = [];
+
         for (var j=0; j<5; j++) {
 
             this.h[i][j] = 0;
@@ -104,6 +106,7 @@ Game.prototype.initWithPawns = function(matrix)
             }
 
         }
+
     }
 
 };
@@ -132,26 +135,5 @@ Game.prototype.removePawnAt = function(x, y) {
     }
 
     this.pawns[x][y][this.h[x][y]] = 0;
-
-};
-
-Game.prototype.playPawnAt = function(x, y, player) {
-
-    // Si la colonne est disponible
-    if (this.h[x][y] < 4) {
-
-        // Pose le pion et teste le gain
-        if (this.putPawnAt(x, y, player)) {
-            console.log("C'est gagné !");
-        }
-
-        this.h[x][y]++;
-        this.counter++;
-
-        if (this.counter == 100) {
-            this.end = true;
-        }
-
-    }
 
 };
