@@ -1,2 +1,4 @@
 .idea
 js/ai/*
+lib/babylonjs/Tools/babylon.tools.js
+lib/babylonjs/Tools/babylon.tools.ts
