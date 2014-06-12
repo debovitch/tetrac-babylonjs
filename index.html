@@ -11,6 +11,7 @@
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
         <link rel="icon" href="favicon.ico" />
 
+        <link rel="stylesheet" href="lib/angular-strap/bootstrap-additions.min.css">
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/main.css">
 
@@ -24,113 +25,115 @@
             }
         </style>
 
-        <script src="lib/modernizr-2.6.2.min.js"></script>
+        <script src="lib/modernizr/modernizr-2.6.2.min.js"></script>
         <script src="lib/jquery/jquery.min.js"></script>
         <!--<script src="js/vendor/babylon.1.11.js"></script>-->
-        <script src="lib/hand-1.3.8.js"></script>
+        <script src="lib/babylonjs/hand-1.3.8.js"></script>
         <script src="lib/angular/angular.js"></script>
+        <script src="lib/angular-strap/angular-strap.min.js"></script>
+        <script src="lib/angular-strap/angular-strap.tpl.min.js"></script>
 
-        <script src="lib/babylonjs/Tools/babylon.andOrNotEvaluator.js"></script>
-        <script src="lib/babylonjs/babylon.mixins.js"></script>
-        <script src="lib/babylonjs/Math/babylon.math.js"></script>
-        <script src="lib/babylonjs/Tools/babylon.database.js"></script>
-        <script src="lib/babylonjs/Tools/babylon.tools.dds.js"></script>
-        <script src="lib/babylonjs/Tools/babylon.tools.js"></script>
-        <script src="lib/babylonjs/Tools/babylon.smartArray.js"></script>
-        <script src="lib/babylonjs/babylon.engine.js"></script>
-        <script src="lib/babylonjs/babylon.node.js"></script>
-        <script src="lib/babylonjs/Tools/babylon.filesInput.js"></script>
-        <script src="lib/babylonjs/Collisions/babylon.pickingInfo.js"></script>
-        <script src="lib/babylonjs/Culling/babylon.boundingSphere.js"></script>
-        <script src="lib/babylonjs/Culling/babylon.boundingBox.js"></script>
-        <script src="lib/babylonjs/Culling/babylon.boundingInfo.js"></script>
-        <script src="lib/babylonjs/Lights/babylon.light.js"></script>
-        <script src="lib/babylonjs/Lights/babylon.pointLight.js"></script>
-        <script src="lib/babylonjs/Lights/babylon.spotLight.js"></script>
-        <script src="lib/babylonjs/Lights/babylon.hemisphericLight.js"></script>
-        <script src="lib/babylonjs/Lights/babylon.directionalLight.js"></script>
-        <script src="lib/babylonjs/Lights/Shadows/babylon.shadowGenerator.js"></script>
-        <script src="lib/babylonjs/Collisions/babylon.collider.js"></script>
-        <script src="lib/babylonjs/Cameras/Controllers/babylon.inputController.js"></script>
-        <script src="lib/babylonjs/Cameras/babylon.camera.js"></script>
-        <script src="lib/babylonjs/Cameras/babylon.freeCamera.js"></script>
-        <script src="lib/babylonjs/Cameras/babylon.touchCamera.js"></script>
-        <script src="lib/babylonjs/Cameras/babylon.arcRotateCamera.js"></script>
-        <script src="lib/babylonjs/Cameras/babylon.deviceOrientationCamera.js"></script>
-        <script src="lib/babylonjs/Rendering/babylon.renderingManager.js"></script>
-        <script src="lib/babylonjs/Rendering/babylon.renderingGroup.js"></script>
-        <script src="lib/babylonjs/Rendering/babylon.boundingBoxRenderer.js"></script>
-        <script src="lib/babylonjs/babylon.scene.js"></script>
-        <script src="lib/babylonjs/Mesh/babylon.vertexBuffer.js"></script>
-        <script src="lib/babylonjs/Mesh/babylon.geometry.js"></script>
+        <script src="lib/babylonjs/src/Tools/babylon.andOrNotEvaluator.js"></script>
+        <script src="lib/babylonjs/src/babylon.mixins.js"></script>
+        <script src="lib/babylonjs/src/Math/babylon.math.js"></script>
+        <script src="lib/babylonjs/src/Tools/babylon.database.js"></script>
+        <script src="lib/babylonjs/src/Tools/babylon.tools.dds.js"></script>
+        <script src="lib/babylonjs/src/Tools/babylon.tools.js"></script>
+        <script src="lib/babylonjs/src/Tools/babylon.smartArray.js"></script>
+        <script src="lib/babylonjs/src/babylon.engine.js"></script>
+        <script src="lib/babylonjs/src/babylon.node.js"></script>
+        <script src="lib/babylonjs/src/Tools/babylon.filesInput.js"></script>
+        <script src="lib/babylonjs/src/Collisions/babylon.pickingInfo.js"></script>
+        <script src="lib/babylonjs/src/Culling/babylon.boundingSphere.js"></script>
+        <script src="lib/babylonjs/src/Culling/babylon.boundingBox.js"></script>
+        <script src="lib/babylonjs/src/Culling/babylon.boundingInfo.js"></script>
+        <script src="lib/babylonjs/src/Lights/babylon.light.js"></script>
+        <script src="lib/babylonjs/src/Lights/babylon.pointLight.js"></script>
+        <script src="lib/babylonjs/src/Lights/babylon.spotLight.js"></script>
+        <script src="lib/babylonjs/src/Lights/babylon.hemisphericLight.js"></script>
+        <script src="lib/babylonjs/src/Lights/babylon.directionalLight.js"></script>
+        <script src="lib/babylonjs/src/Lights/Shadows/babylon.shadowGenerator.js"></script>
+        <script src="lib/babylonjs/src/Collisions/babylon.collider.js"></script>
+        <script src="lib/babylonjs/src/Cameras/Controllers/babylon.inputController.js"></script>
+        <script src="lib/babylonjs/src/Cameras/babylon.camera.js"></script>
+        <script src="lib/babylonjs/src/Cameras/babylon.freeCamera.js"></script>
+        <script src="lib/babylonjs/src/Cameras/babylon.touchCamera.js"></script>
+        <script src="lib/babylonjs/src/Cameras/babylon.arcRotateCamera.js"></script>
+        <script src="lib/babylonjs/src/Cameras/babylon.deviceOrientationCamera.js"></script>
+        <script src="lib/babylonjs/src/Rendering/babylon.renderingManager.js"></script>
+        <script src="lib/babylonjs/src/Rendering/babylon.renderingGroup.js"></script>
+        <script src="lib/babylonjs/src/Rendering/babylon.boundingBoxRenderer.js"></script>
+        <script src="lib/babylonjs/src/babylon.scene.js"></script>
+        <script src="lib/babylonjs/src/Mesh/babylon.vertexBuffer.js"></script>
+        <script src="lib/babylonjs/src/Mesh/babylon.geometry.js"></script>
         <!-- depends on vertexBuffer -->
-        <script src="lib/babylonjs/Mesh/babylon.mesh.vertexData.js"></script>
-        <script src="lib/babylonjs/Mesh/babylon.mesh.js"></script>
-        <script src="lib/babylonjs/Mesh/babylon.subMesh.js"></script>
-        <script src="lib/babylonjs/Materials/textures/babylon.baseTexture.js"></script>
-        <script src="lib/babylonjs/Materials/textures/babylon.texture.js"></script>
-        <script src="lib/babylonjs/Materials/textures/babylon.cubeTexture.js"></script>
-        <script src="lib/babylonjs/Materials/textures/babylon.renderTargetTexture.js"></script>
-        <script src="lib/babylonjs/Materials/textures/babylon.mirrorTexture.js"></script>
-        <script src="lib/babylonjs/Materials/textures/babylon.dynamicTexture.js"></script>
-        <script src="lib/babylonjs/Materials/textures/babylon.videoTexture.js"></script>
-        <script src="lib/babylonjs/Materials/babylon.effect.js"></script>
-        <script src="lib/babylonjs/Materials/babylon.material.js"></script>
-        <script src="lib/babylonjs/Materials/babylon.standardMaterial.js"></script>
-        <script src="lib/babylonjs/Materials/babylon.multiMaterial.js"></script>
-        <script src="lib/babylonjs/Loading/babylon.sceneLoader.js"></script>
-        <script src="lib/babylonjs/Tools/babylon.tags.js"></script>
-        <script src="lib/babylonjs/Loading/Plugins/babylon.babylonFileLoader.js"></script>
-        <script src="lib/babylonjs/Loading/Plugins/babylon.jsonFileLoader.js"></script>
-        <script src="lib/babylonjs/Tools/babylon.database.js"></script>
-        <script src="lib/babylonjs/Sprites/babylon.spriteManager.js"></script>
-        <script src="lib/babylonjs/Sprites/babylon.sprite.js"></script>
-        <script src="lib/babylonjs/Layer/babylon.layer.js"></script>
-        <script src="lib/babylonjs/Particles/babylon.particle.js"></script>
-        <script src="lib/babylonjs/Particles/babylon.particleSystem.js"></script>
-        <script src="lib/babylonjs/Animations/babylon.animation.js"></script>
-        <script src="lib/babylonjs/Animations/babylon.animatable.js"></script>
-        <script src="lib/babylonjs/Culling/Octrees/babylon.octree.js"></script>
-        <script src="lib/babylonjs/Culling/Octrees/babylon.octreeBlock.js"></script>
-        <script src="lib/babylonjs/Bones/babylon.bone.js"></script>
-        <script src="lib/babylonjs/Bones/babylon.skeleton.js"></script>
-        <script src="lib/babylonjs/PostProcess/babylon.postProcess.js"></script>
-        <script src="lib/babylonjs/PostProcess/babylon.postProcessManager.js"></script>
-        <script src="lib/babylonjs/PostProcess/RenderPipeline/babylon.postProcessRenderEffect.js"></script>
-        <script src="lib/babylonjs/PostProcess/RenderPipeline/babylon.postProcessRenderPass.js"></script>
-        <script src="lib/babylonjs/PostProcess/RenderPipeline/babylon.postProcessRenderPipeline.js"></script>
-        <script src="lib/babylonjs/PostProcess/RenderPipeline/babylon.postProcessRenderPipelineManager.js"></script>
-        <script src="lib/babylonjs/PostProcess/babylon.passPostProcess.js"></script>
-        <script src="lib/babylonjs/PostProcess/babylon.anaglyphPostProcess.js"></script>
-        <script src="lib/babylonjs/PostProcess/babylon.blurPostProcess.js"></script>
-        <script src="lib/babylonjs/PostProcess/babylon.refractionPostProcess.js"></script>
-        <script src="lib/babylonjs/PostProcess/babylon.blackAndWhitePostProcess.js"></script>
-        <script src="lib/babylonjs/PostProcess/babylon.convolutionPostProcess.js"></script>
-        <script src="lib/babylonjs/PostProcess/babylon.filterPostProcess.js"></script>
-        <script src="lib/babylonjs/PostProcess/babylon.fxaaPostProcess.js"></script>
-        <script src="lib/babylonjs/PostProcess/babylon.displayPassPostProcess.js"></script>
-        <script src="lib/babylonjs/LensFlare/babylon.lensFlare.js"></script>
-        <script src="lib/babylonjs/LensFlare/babylon.lensFlareSystem.js"></script>
-        <script src="lib/babylonjs/Physics/babylon.physicsEngine.js"></script>
-        <script src="lib/babylonjs/Tools/babylon.sceneSerializer.js"></script>
-        <script src="lib/babylonjs/Mesh/babylon.csg.js"></script>
-        <script src="lib/babylonjs/PostProcess/babylon.oculusDistortionCorrectionPostProcess.js"></script>
-        <script src="lib/babylonjs/Tools/babylon.virtualJoystick.js"></script>
-        <script src="lib/babylonjs/Cameras/Controllers/babylon.oculusController.js"></script>
-        <script src="lib/babylonjs/Cameras/babylon.oculusOrientedCamera.js"></script>
-        <script src="lib/babylonjs/Cameras/babylon.virtualJoysticksCamera.js"></script>
-        <script src="lib/babylonjs/Cameras/babylon.anaglyphCamera.js"></script>
-        <script src="lib/babylonjs/Cameras/Controllers/babylon.keyboardMoveController.js"></script>
-        <script src="lib/babylonjs/Cameras/Controllers/babylon.inputCollisionFilter.js"></script>
-        <script src="lib/babylonjs/Cameras/Controllers/babylon.gravityInputController.js"></script>
-        <script src="lib/babylonjs/Cameras/Controllers/babylon.globalAxisFactorsFilter.js"></script>
-        <script src="lib/babylonjs/Materials/babylon.shaderMaterial.js"></script>
-        <script src="lib/babylonjs/Physics/Plugins/babylon.cannonJSPlugin.js"></script>
-        <script src="lib/babylonjs/Actions/babylon.action.js"></script>
-        <script src="lib/babylonjs/Actions/babylon.actionManager.js"></script>
-        <script src="lib/babylonjs/Actions/babylon.interpolateValueAction.js"></script>
-        <script src="lib/babylonjs/Actions/babylon.directActions.js"></script>
-        <script src="lib/babylonjs/Actions/babylon.condition.js"></script>
+        <script src="lib/babylonjs/src/Mesh/babylon.mesh.vertexData.js"></script>
+        <script src="lib/babylonjs/src/Mesh/babylon.mesh.js"></script>
+        <script src="lib/babylonjs/src/Mesh/babylon.subMesh.js"></script>
+        <script src="lib/babylonjs/src/Materials/textures/babylon.baseTexture.js"></script>
+        <script src="lib/babylonjs/src/Materials/textures/babylon.texture.js"></script>
+        <script src="lib/babylonjs/src/Materials/textures/babylon.cubeTexture.js"></script>
+        <script src="lib/babylonjs/src/Materials/textures/babylon.renderTargetTexture.js"></script>
+        <script src="lib/babylonjs/src/Materials/textures/babylon.mirrorTexture.js"></script>
+        <script src="lib/babylonjs/src/Materials/textures/babylon.dynamicTexture.js"></script>
+        <script src="lib/babylonjs/src/Materials/textures/babylon.videoTexture.js"></script>
+        <script src="lib/babylonjs/src/Materials/babylon.effect.js"></script>
+        <script src="lib/babylonjs/src/Materials/babylon.material.js"></script>
+        <script src="lib/babylonjs/src/Materials/babylon.standardMaterial.js"></script>
+        <script src="lib/babylonjs/src/Materials/babylon.multiMaterial.js"></script>
+        <script src="lib/babylonjs/src/Loading/babylon.sceneLoader.js"></script>
+        <script src="lib/babylonjs/src/Tools/babylon.tags.js"></script>
+        <script src="lib/babylonjs/src/Loading/Plugins/babylon.babylonFileLoader.js"></script>
+        <script src="lib/babylonjs/src/Loading/Plugins/babylon.jsonFileLoader.js"></script>
+        <script src="lib/babylonjs/src/Tools/babylon.database.js"></script>
+        <script src="lib/babylonjs/src/Sprites/babylon.spriteManager.js"></script>
+        <script src="lib/babylonjs/src/Sprites/babylon.sprite.js"></script>
+        <script src="lib/babylonjs/src/Layer/babylon.layer.js"></script>
+        <script src="lib/babylonjs/src/Particles/babylon.particle.js"></script>
+        <script src="lib/babylonjs/src/Particles/babylon.particleSystem.js"></script>
+        <script src="lib/babylonjs/src/Animations/babylon.animation.js"></script>
+        <script src="lib/babylonjs/src/Animations/babylon.animatable.js"></script>
+        <script src="lib/babylonjs/src/Culling/Octrees/babylon.octree.js"></script>
+        <script src="lib/babylonjs/src/Culling/Octrees/babylon.octreeBlock.js"></script>
+        <script src="lib/babylonjs/src/Bones/babylon.bone.js"></script>
+        <script src="lib/babylonjs/src/Bones/babylon.skeleton.js"></script>
+        <script src="lib/babylonjs/src/PostProcess/babylon.postProcess.js"></script>
+        <script src="lib/babylonjs/src/PostProcess/babylon.postProcessManager.js"></script>
+        <script src="lib/babylonjs/src/PostProcess/RenderPipeline/babylon.postProcessRenderEffect.js"></script>
+        <script src="lib/babylonjs/src/PostProcess/RenderPipeline/babylon.postProcessRenderPass.js"></script>
+        <script src="lib/babylonjs/src/PostProcess/RenderPipeline/babylon.postProcessRenderPipeline.js"></script>
+        <script src="lib/babylonjs/src/PostProcess/RenderPipeline/babylon.postProcessRenderPipelineManager.js"></script>
+        <script src="lib/babylonjs/src/PostProcess/babylon.passPostProcess.js"></script>
+        <script src="lib/babylonjs/src/PostProcess/babylon.anaglyphPostProcess.js"></script>
+        <script src="lib/babylonjs/src/PostProcess/babylon.blurPostProcess.js"></script>
+        <script src="lib/babylonjs/src/PostProcess/babylon.refractionPostProcess.js"></script>
+        <script src="lib/babylonjs/src/PostProcess/babylon.blackAndWhitePostProcess.js"></script>
+        <script src="lib/babylonjs/src/PostProcess/babylon.convolutionPostProcess.js"></script>
+        <script src="lib/babylonjs/src/PostProcess/babylon.filterPostProcess.js"></script>
+        <script src="lib/babylonjs/src/PostProcess/babylon.fxaaPostProcess.js"></script>
+        <script src="lib/babylonjs/src/PostProcess/babylon.displayPassPostProcess.js"></script>
+        <script src="lib/babylonjs/src/LensFlare/babylon.lensFlare.js"></script>
+        <script src="lib/babylonjs/src/LensFlare/babylon.lensFlareSystem.js"></script>
+        <script src="lib/babylonjs/src/Physics/babylon.physicsEngine.js"></script>
+        <script src="lib/babylonjs/src/Tools/babylon.sceneSerializer.js"></script>
+        <script src="lib/babylonjs/src/Mesh/babylon.csg.js"></script>
+        <script src="lib/babylonjs/src/PostProcess/babylon.oculusDistortionCorrectionPostProcess.js"></script>
+        <script src="lib/babylonjs/src/Tools/babylon.virtualJoystick.js"></script>
+        <script src="lib/babylonjs/src/Cameras/Controllers/babylon.oculusController.js"></script>
+        <script src="lib/babylonjs/src/Cameras/babylon.oculusOrientedCamera.js"></script>
+        <script src="lib/babylonjs/src/Cameras/babylon.virtualJoysticksCamera.js"></script>
+        <script src="lib/babylonjs/src/Cameras/babylon.anaglyphCamera.js"></script>
+        <script src="lib/babylonjs/src/Cameras/Controllers/babylon.keyboardMoveController.js"></script>
+        <script src="lib/babylonjs/src/Cameras/Controllers/babylon.inputCollisionFilter.js"></script>
+        <script src="lib/babylonjs/src/Cameras/Controllers/babylon.gravityInputController.js"></script>
+        <script src="lib/babylonjs/src/Cameras/Controllers/babylon.globalAxisFactorsFilter.js"></script>
+        <script src="lib/babylonjs/src/Materials/babylon.shaderMaterial.js"></script>
+        <script src="lib/babylonjs/src/Physics/Plugins/babylon.cannonJSPlugin.js"></script>
+        <script src="lib/babylonjs/src/Actions/babylon.action.js"></script>
+        <script src="lib/babylonjs/src/Actions/babylon.actionManager.js"></script>
+        <script src="lib/babylonjs/src/Actions/babylon.interpolateValueAction.js"></script>
+        <script src="lib/babylonjs/src/Actions/babylon.directActions.js"></script>
+        <script src="lib/babylonjs/src/Actions/babylon.condition.js"></script>
 
         <script src="js/World.js"></script>
 
@@ -155,6 +158,11 @@
     </head>
 
     <body ng-controller="MainController">
+
+        <button type="button" class="btn btn-lg btn-primary" bs-aside="aside">
+            Click to toggle aside<br>
+            <small>(using an object)</small>
+        </button>
 
         <div id="scene">
             <canvas id="renderCanvas"></canvas>
