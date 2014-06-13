@@ -34,6 +34,7 @@ TetradScene.prototype.createLights = function() {
     this.hemisphericLight1 = new BABYLON.HemisphericLight("hemisphericLight1", new BABYLON.Vector3(0, 1, 0), this);
     this.hemisphericLight1.intensity = 0.9;
 
+    /*
     var lightDirection = new BABYLON.Vector3(30, -20, -10);
     this.dirLight1 = new BABYLON.DirectionalLight("dirLight1", lightDirection, this);
     this.dirLight1.position = lightDirection.negate();
@@ -44,12 +45,13 @@ TetradScene.prototype.createLights = function() {
     this.shadowGenerator1 = new BABYLON.ShadowGenerator(4096, this.dirLight1);
     this.shadowGenerator1.useVarianceShadowMap = false;
     this.shadowGenerator1.setDarkness(0.5);
+    */
 
 };
 
 TetradScene.prototype.createCameras = function() {
 
-    this.camera1 = new BABYLON.ArcRotateCamera("camera1", Math.PI/6, Math.PI/2.7, 50, new BABYLON.Vector3(0, 3.25, 0), this);
+    this.camera1 = new BABYLON.ArcRotateCamera("camera1", Math.PI/8, Math.PI/2.7, 70, new BABYLON.Vector3(0, 3.25, 0), this);
 
 };
 
@@ -84,6 +86,7 @@ TetradScene.prototype.createMaterials = function() {
     this.redMaterial.specularPower = 500;
     //this.redMaterial.wireframe = true;
 
+    /*
     this.mirrorMaterial = new BABYLON.StandardMaterial("mirrorMat", this);
     this.mirrorMaterial.ambientColor = new BABYLON.Color3(0, 0, 0);
     this.mirrorMaterial.diffuseColor = new BABYLON.Color3(0.0697, 0.0297, 0.0117);
@@ -93,6 +96,7 @@ TetradScene.prototype.createMaterials = function() {
     this.mirrorMaterial.reflectionTexture = new BABYLON.MirrorTexture("mirrorTex", 1024, this, true);
     this.mirrorMaterial.reflectionTexture.mirrorPlane = new BABYLON.Plane(0, -1, 0, -1.95);
     this.mirrorMaterial.reflectionTexture.level = 0.1;
+    */
 
     this.groundMaterial = new BABYLON.StandardMaterial("groundMat", this);
     this.groundMaterial.diffuseTexture = new BABYLON.Texture("assets/textures/ground.jpg", this);
@@ -165,7 +169,7 @@ TetradScene.prototype.createBoard = function(mesh) {
     this.pawn = mesh;
     this.pawn.isVisible = false;
     this.pawn.parent = this.board;
-    this.mirrorMaterial.reflectionTexture.renderList.push(this.pawn);
+    //this.mirrorMaterial.reflectionTexture.renderList.push(this.pawn);
 
     // Create squares
     for (var i=0; i<5; i++) {
@@ -178,7 +182,7 @@ TetradScene.prototype.createBoard = function(mesh) {
             square.material = this.whiteMaterial;
             square.parent = this.board;
             square.isVisible = true;
-            this.shadowGenerator1.getShadowMap().renderList.push(square);
+            //this.shadowGenerator1.getShadowMap().renderList.push(square);
         }
     }
 
@@ -191,7 +195,7 @@ TetradScene.prototype.createPlate = function() {
     this.plate = BABYLON.Mesh.CreateGround("mirror", 40, 40, 1, this, false);
     this.plate.locallyTranslate(new BABYLON.Vector3(0, this.plateZ, 0));
     this.plate.receiveShadows = true;
-    this.plate.material = this.mirrorMaterial;
+    this.plate.material = this.brownMaterial;//this.mirrorMaterial;
 
 };
 
@@ -259,8 +263,8 @@ TetradScene.prototype.createPawn = function(x, y, z, player) {
     }
     pawn.parent = this.board;
     pawn.isVisible = true;
-    this.shadowGenerator1.getShadowMap().renderList.push(pawn);
-    this.mirrorMaterial.reflectionTexture.renderList.push(pawn);
+    //this.shadowGenerator1.getShadowMap().renderList.push(pawn);
+    //this.mirrorMaterial.reflectionTexture.renderList.push(pawn);
 
 };
 
@@ -299,13 +303,15 @@ TetradScene.prototype.play = function(x, y, player) {
     var that = this;
 
     // Si la colonne est disponible
-    if (this.game.h[x][y] < 4) {
+    if (!this.game.end && this.game.h[x][y] < 4) {
 
         this.createPawn(x, y, this.game.h[x][y], player);
 
         // Pose le pion et teste le gain
-        if (this.game.putPawnAt(x, y, player)) {
-            console.log("C'est gagné !");
+        var win = this.game.putPawnAt(x, y, player);
+        if (win.winner) {
+            this.game.end = true;
+            this.displayWinningLine(x, y, player, win.line);
         }
 
         this.game.h[x][y]++;
@@ -316,8 +322,6 @@ TetradScene.prototype.play = function(x, y, player) {
         }
 
         this.menu.player *= -1;
-
-        this.game.gameLines.logPawnLines(0, 3, 0);
 
     }
 
@@ -340,6 +344,20 @@ TetradScene.prototype.play = function(x, y, player) {
             );
         }
 
+    }
+
+};
+
+TetradScene.prototype.displayWinningLine = function(x, y, player, line) {
+
+    console.log("C'est gagné !");
+
+    for (var i=0; i<4; i++) {
+        console.log("Place %i, x : %i, y : %i, z : %i", i,
+            this.game.gameLines.pawnsLines[x][y][this.game.h[x][y]][line].places[i].x,
+            this.game.gameLines.pawnsLines[x][y][this.game.h[x][y]][line].places[i].y,
+            this.game.gameLines.pawnsLines[x][y][this.game.h[x][y]][line].places[i].z
+        );
     }
 
 };

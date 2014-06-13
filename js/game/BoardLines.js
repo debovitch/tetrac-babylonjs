@@ -1,4 +1,6 @@
-function BoardLines() {
+function BoardLines(places) {
+
+    this.places = places;
 
     this.x = [];
     this.y = [];
@@ -15,7 +17,7 @@ function BoardLines() {
     this.xmymz = [];
 
     this.set();
-    
+
 }
 
 BoardLines.prototype.set = function() {
@@ -26,7 +28,15 @@ BoardLines.prototype.set = function() {
         for (var j=0; j<2; j++) {
             this.x[i][j] = [];
             for (var k=0; k<4; k++) {
-                this.x[i][j][k] = { v : 0 };
+                this.x[i][j][k] = {
+                    v : 0,
+                    places : [
+                        this.places[i][j][k],
+                        this.places[i][j+1][k],
+                        this.places[i][j+2][k],
+                        this.places[i][j+3][k]
+                    ]
+                };
             }
         }
     }
@@ -37,7 +47,15 @@ BoardLines.prototype.set = function() {
         for (var j=0; j<5; j++) {
             this.y[i][j] = [];
             for (var k=0; k<4; k++) {
-                this.y[i][j][k] = { v : 0 };
+                this.y[i][j][k] = {
+                    v : 0,
+                    places : [
+                        this.places[i][j][k],
+                        this.places[i+1][j][k],
+                        this.places[i+2][j][k],
+                        this.places[i+3][j][k]
+                    ]
+                };
             }
         }
     }
@@ -46,7 +64,15 @@ BoardLines.prototype.set = function() {
     for (var i=0; i<5; i++) {
         this.z[i] = [];
         for (var j=0; j<5; j++) {
-            this.z[i][j] = { v : 0 };
+            this.z[i][j] = {
+                v : 0,
+                places : [
+                    this.places[i][j][0],
+                    this.places[i][j][1],
+                    this.places[i][j][2],
+                    this.places[i][j][3]
+                ]
+            };
         }
     }
 

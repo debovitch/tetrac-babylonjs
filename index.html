@@ -11,12 +11,11 @@
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
         <link rel="icon" href="favicon.ico" />
 
-        <link rel="stylesheet" href="lib/angular-strap/bootstrap-additions.min.css">
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/main.css">
 
         <style>
-            html, body, div, canvas {
+            html, body, canvas {
                 width: 100%;
                 height: 100%;
                 padding: 0;
@@ -30,8 +29,6 @@
         <!--<script src="js/vendor/babylon.1.11.js"></script>-->
         <script src="lib/babylonjs/hand-1.3.8.js"></script>
         <script src="lib/angular/angular.js"></script>
-        <script src="lib/angular-strap/angular-strap.min.js"></script>
-        <script src="lib/angular-strap/angular-strap.tpl.min.js"></script>
 
         <script src="lib/babylonjs/src/Tools/babylon.andOrNotEvaluator.js"></script>
         <script src="lib/babylonjs/src/babylon.mixins.js"></script>
@@ -146,6 +143,7 @@
         <!--<script src="js/ai/Minimax.js"></script>
         <script src="js/ai/Computer.js"></script>-->
 
+        <script src="js/game/Place.js"></script>
         <script src="js/game/BoardLines.js"></script>
         <script src="js/game/PawnLines.js"></script>
         <script src="js/game/GameLines.js"></script>
@@ -159,14 +157,7 @@
 
     <body ng-controller="MainController">
 
-        <button type="button" class="btn btn-lg btn-primary" bs-aside="aside">
-            Click to toggle aside<br>
-            <small>(using an object)</small>
-        </button>
-
-        <div id="scene">
-            <canvas id="renderCanvas"></canvas>
-        </div>
+        <canvas id="renderCanvas"></canvas>
 
         <script type="text/javascript">
             $(window).load(function() {

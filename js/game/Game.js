@@ -15,35 +15,36 @@ Game.prototype.newGame = function() {
 
     var matrice = [
 
-                            //  ------------------>
-                            //  0   1   2   3   4
-
                         [
                             [   0,  0,  0,  0,  0   ],
                             [   0,  0,  0,  0,  0   ],
                             [   0,  0,  0,  0,  0   ],
-                            [   0,  0,  0,  0,  0   ]   //      y = 0           0   5   10  15  20
+                            [   1, -1,  1, -1,  0   ]   //      x = 0           0   5   10  15  20
                         ], [
                         [   0,  0,  0,  0,  0   ],
                         [   0,  0,  0,  0,  0   ],
                         [   0,  0,  0,  0,  0   ],
-                        [   0,  0,  0,  0,  0   ]   //      y = 1           1   6   11  16  21
+                        [   0,  0,  0,  0,  0   ]   //      x = 1           1   6   11  16  21
                     ], [
                     [   0,  0,  0,  0,  0   ],
                     [   0,  0,  0,  0,  0   ],
                     [   0,  0,  0,  0,  0   ],
-                    [   0,  0,  0,  0,  0   ]   //      y = 2           2   7   12  17  22
+                    [   0,  0,  0,  0,  0   ]   //      x = 2           2   7   12  17  22
                 ], [
                 [   0,  0,  0,  0,  0   ],
                 [   0,  0,  0,  0,  0   ],
                 [   0,  0,  0,  0,  0   ],
-                [   0,  0,  0,  0,  0   ]   //      y = 3           3   8   13  18  23
+                [   0,  0,  0,  0,  0   ]   //      x = 3          3   8   13  18  23
             ], [
             [   0,  0,  0,  0,  0   ],
             [   0,  0,  0,  0,  0   ],
             [   0,  0,  0,  0,  0   ],
-            [   0,  0,  0,  0,  0   ]   //      y = 4           4   9   14  19  24
+            [   0,  0,  0,  0,  0   ]   //      x = 4           4   9   14  19  24
         ]
+
+        //      ------------------>     y
+        //
+        //      0   1   2   3   4
 
     ];
 
@@ -114,6 +115,7 @@ Game.prototype.initWithPawns = function(matrix) {
 Game.prototype.putPawnAt = function(x, y, player) {
 
     var winner = false;
+    var line;
 
     this.pawns[x][y][this.h[x][y]] = player;
 
@@ -121,10 +123,14 @@ Game.prototype.putPawnAt = function(x, y, player) {
         this.gameLines.pawnsLines[x][y][this.h[x][y]][l].v += player;
         if (this.gameLines.pawnsLines[x][y][this.h[x][y]][l].v == 4 * player) {
             winner = true;
+            line = l;
         }
     }
 
-    return winner;
+    return {
+        winner : winner,
+        line : line
+    };
 
 };
 

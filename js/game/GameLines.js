@@ -1,6 +1,8 @@
 function GameLines() {
 
-    this.boardLines = new BoardLines();
+    this.places = [];
+    this.setPlaces();
+    this.boardLines = new BoardLines(this.places);
     this.pawnsLinesTemp = [];
     this.count = [];
     this.pawnsLines = [];
@@ -11,9 +13,25 @@ function GameLines() {
 
 GameLines.prototype.build = function() {
 
+    this.setPlaces();
     this.setPawnsLinesTemp();
     this.countLines();
     this.setPawnsLines();
+
+};
+
+GameLines.prototype.setPlaces = function() {
+
+    // Init all pawns lines to null
+    for (var i=0; i<5; i++) {
+        this.places[i] = [];
+        for (var j=0; j<5; j++) {
+            this.places[i][j] = [];
+            for (var k=0; k<4; k++) {
+                this.places[i][j][k] = new Place(i, j, k);
+            }
+        }
+    }
 
 };
 
