@@ -2,7 +2,7 @@ function World() {
 
     var that = this;
 
-    BABYLON.Engine.ShadersRepository = "/lib/babylonjs/Shaders/";
+    BABYLON.Engine.ShadersRepository = "/lib/babylonjs/src/Shaders/";
 
     // Get canvas element
     this.canvas = document.getElementById("renderCanvas");
