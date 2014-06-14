@@ -79,11 +79,79 @@ BoardLines.prototype.set = function() {
     // Init xy, xmy board lines
     for (var k=0; k<4; k++) {
         this.xy[k] = [];
+        this.xy[k][0] = {
+            v : 0,
+            places : [
+                this.places[1][0][k],
+                this.places[2][1][k],
+                this.places[3][2][k],
+                this.places[4][3][k]
+            ]
+        };
+        this.xy[k][1] = {
+            v : 0,
+            places : [
+                this.places[0][0][k],
+                this.places[1][1][k],
+                this.places[2][2][k],
+                this.places[3][3][k]
+            ]
+        };
+        this.xy[k][2] = {
+            v : 0,
+            places : [
+                this.places[1][1][k],
+                this.places[2][2][k],
+                this.places[3][3][k],
+                this.places[4][4][k]
+            ]
+        };
+        this.xy[k][3] = {
+            v : 0,
+            places : [
+                this.places[0][1][k],
+                this.places[1][2][k],
+                this.places[2][3][k],
+                this.places[3][4][k]
+            ]
+        };
         this.xmy[k] = [];
-        for (var l=0; l<4; l++) {
-            this.xy[k][l] = { v : 0 };
-            this.xmy[k][l] = { v : 0 };
-        }
+        this.xmy[k][0] = {
+            v : 0,
+            places : [
+                this.places[0][3][k],
+                this.places[1][2][k],
+                this.places[2][1][k],
+                this.places[3][0][k]
+            ]
+        };
+        this.xmy[k][1] = {
+            v : 0,
+            places : [
+                this.places[0][4][k],
+                this.places[1][3][k],
+                this.places[2][2][k],
+                this.places[3][1][k]
+            ]
+        };
+        this.xmy[k][2] = {
+            v : 0,
+            places : [
+                this.places[1][3][k],
+                this.places[2][2][k],
+                this.places[3][1][k],
+                this.places[4][0][k]
+            ]
+        };
+        this.xmy[k][3] = {
+            v : 0,
+            places : [
+                this.places[1][4][k],
+                this.places[2][3][k],
+                this.places[3][2][k],
+                this.places[4][1][k]
+            ]
+        };
     }
 
     // Init xz, xmz board lines
