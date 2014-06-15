@@ -206,13 +206,157 @@ BoardLines.prototype.set = function() {
         }
     }
 
-    // Init xyz, xymz, xmyz, xmymz board lines
-    for (var l=0; l<4; l++) {
-        this.xyz[l] = { v : 0 };
-        this.xymz[l] = { v : 0 };
-        this.xmyz[l] = { v : 0 };
-        this.xmymz[l] = { v : 0 };
-    }
+    // Init xyz board lines
+    this.xyz[0] = {
+        v : 0,
+        places : [
+            this.places[1][0][0],
+            this.places[2][1][1],
+            this.places[3][2][2],
+            this.places[4][3][3]
+        ]
+    };
+    this.xyz[1] = {
+        v : 0,
+        places : [
+            this.places[0][0][0],
+            this.places[1][1][1],
+            this.places[2][2][2],
+            this.places[3][3][3]
+        ]
+    };
+    this.xyz[2] = {
+        v : 0,
+        places : [
+            this.places[1][1][0],
+            this.places[2][2][1],
+            this.places[3][3][2],
+            this.places[4][4][3]
+        ]
+    };
+    this.xyz[3] = {
+        v : 0,
+        places : [
+            this.places[0][1][0],
+            this.places[1][2][1],
+            this.places[2][3][2],
+            this.places[3][4][3]
+        ]
+    };
+
+    // Init xmyz board lines
+    this.xmyz[0] = {
+        v : 0,
+        places : [
+            this.places[0][3][0],
+            this.places[1][2][1],
+            this.places[2][1][2],
+            this.places[3][0][3]
+        ]
+    };
+    this.xmyz[1] = {
+        v : 0,
+        places : [
+            this.places[0][4][0],
+            this.places[1][3][1],
+            this.places[2][2][2],
+            this.places[3][1][3]
+        ]
+    };
+    this.xmyz[2] = {
+        v : 0,
+        places : [
+            this.places[1][3][0],
+            this.places[2][2][1],
+            this.places[3][1][2],
+            this.places[4][0][3]
+        ]
+    };
+    this.xmyz[3] = {
+        v : 0,
+        places : [
+            this.places[1][4][0],
+            this.places[2][3][1],
+            this.places[3][2][2],
+            this.places[4][1][3]
+        ]
+    };
+
+    // Init xymz board lines
+    this.xymz[0] = {
+        v : 0,
+        places : [
+            this.places[1][0][3],
+            this.places[2][1][2],
+            this.places[3][2][1],
+            this.places[4][3][0]
+        ]
+    };
+    this.xymz[1] = {
+        v : 0,
+        places : [
+            this.places[0][0][3],
+            this.places[1][1][2],
+            this.places[2][2][1],
+            this.places[3][3][0]
+        ]
+    };
+    this.xymz[2] = {
+        v : 0,
+        places : [
+            this.places[1][1][3],
+            this.places[2][2][2],
+            this.places[3][3][1],
+            this.places[4][4][0]
+        ]
+    };
+    this.xymz[3] = {
+        v : 0,
+        places : [
+            this.places[0][1][3],
+            this.places[1][2][2],
+            this.places[2][3][1],
+            this.places[3][4][0]
+        ]
+    };
+
+    // Init xmymz board lines
+    this.xmymz[0] = {
+        v : 0,
+        places : [
+            this.places[0][3][3],
+            this.places[1][2][2],
+            this.places[2][1][1],
+            this.places[3][0][0]
+        ]
+    };
+    this.xmymz[1] = {
+        v : 0,
+        places : [
+            this.places[0][4][3],
+            this.places[1][3][2],
+            this.places[2][2][1],
+            this.places[3][1][0]
+        ]
+    };
+    this.xmymz[2] = {
+        v : 0,
+        places : [
+            this.places[1][3][3],
+            this.places[2][2][2],
+            this.places[3][1][1],
+            this.places[4][0][0]
+        ]
+    };
+    this.xmymz[3] = {
+        v : 0,
+        places : [
+            this.places[1][4][3],
+            this.places[2][3][2],
+            this.places[3][2][1],
+            this.places[4][1][0]
+        ]
+    };
 
 };
 
