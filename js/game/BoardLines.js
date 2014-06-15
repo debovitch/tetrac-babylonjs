@@ -156,11 +156,27 @@ BoardLines.prototype.set = function() {
 
     // Init xz, xmz board lines
     for (var i=0; i<2; i++) {
-        this.xz[i] = [];
+        this.xz[i] = []
         this.xmz[i] = [];
         for (var j=0; j<5; j++) {
-            this.xz[i][j] = { v : 0 };
-            this.xmz[i][j] = { v : 0 };
+            this.xz[i][j] = {
+                v : 0,
+                places : [
+                    this.places[i][j][0],
+                    this.places[i+1][j][1],
+                    this.places[i+2][j][2],
+                    this.places[i+3][j][3]
+                ]
+            };
+            this.xmz[i][j] = {
+                v : 0,
+                places : [
+                    this.places[i][j][3],
+                    this.places[i+1][j][2],
+                    this.places[i+2][j][1],
+                    this.places[i+3][j][0]
+                ]
+            };
         }
     }
 
@@ -169,8 +185,24 @@ BoardLines.prototype.set = function() {
         this.yz[i] = [];
         this.ymz[i] = [];
         for (var j=0; j<2; j++) {
-            this.yz[i][j] = { v : 0 };
-            this.ymz[i][j] = { v : 0 };
+            this.yz[i][j] = {
+                v : 0,
+                places : [
+                    this.places[i][j][0],
+                    this.places[i][j+1][1],
+                    this.places[i][j+2][2],
+                    this.places[i][j+3][3]
+                ]
+            };
+            this.ymz[i][j] = {
+                v : 0,
+                places : [
+                    this.places[i][j][3],
+                    this.places[i][j+1][2],
+                    this.places[i][j+2][1],
+                    this.places[i][j+3][0]
+                ]
+            };
         }
     }
 
