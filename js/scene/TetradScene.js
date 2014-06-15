@@ -5,7 +5,7 @@ function TetradScene(engine, callback) {
     this.engine = engine;
 
     this.menu = new Menu();
-    this.menu.setMode(Mode.TWOPLAYERSOFFLINE);
+    this.menu.setMode(Mode.ONEPLAYERONLINE);
 
     this.game = new Game();
 
