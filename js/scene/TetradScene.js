@@ -368,16 +368,7 @@ TetradScene.prototype.readyToPlay = function() {
     }
 
     if (this.menu.mode == Mode.ONEPLAYERONLINE) {
-
-        Helper.sendRequest(
-            '/new',
-            function(response) {
-                console.log("gameId : %i, x : %i, y : %i", response.gameId, response.x, response.y);
-                that.game.id = response.gameId;
-                that.play(response.x, response.y, -1);
-            }
-        );
-
+        this.connection.send('start');
     }
 
 };
@@ -413,8 +404,8 @@ TetradScene.prototype.play = function(x, y, player) {
     if (this.menu.mode == Mode.ONEPLAYERONLINE) {
 
         if (player == 1) {
-            Helper.sendRequest(
-                '/gameId=' + this.game.id + '&move=' + x + y,
+            this.connection.send('gameId=' + this.game.id + '&move=' + x + y);
+            /*
                 function(response) {
                     console.log("gameId : %i, x : %i, y : %i", response.gameId, response.x, response.y);
                     if (response.gameId != that.game.id) {
@@ -427,6 +418,7 @@ TetradScene.prototype.play = function(x, y, player) {
                     }
                 }
             );
+            */
         }
 
     }

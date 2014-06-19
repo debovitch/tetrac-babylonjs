@@ -24,7 +24,7 @@ function World() {
                 that.currentScene.render();
             }
         );
-        that.currentScene.readyToPlay();
+        that.currentScene.connection = new Connection();
     };
 
     // Create scenes
