@@ -27,7 +27,7 @@ Helper.decodeResponse = function(response) {
 
     if (responseArray.length > 1) {
 
-        var params =  responseArray[1];
+        var params =  responseArray[0];
         var paramsArray = params.split('&');
 
         // Get game id
