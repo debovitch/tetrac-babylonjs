@@ -14,16 +14,6 @@
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/main.css">
 
-        <style>
-            html, body, canvas {
-                width: 100%;
-                height: 100%;
-                padding: 0;
-                margin: 0;
-                overflow: hidden;
-            }
-        </style>
-
         <script src="lib/modernizr/modernizr-2.6.2.min.js"></script>
         <script src="lib/jquery/jquery.min.js"></script>
         <!--<script src="js/vendor/babylon.1.11.js"></script>-->
@@ -158,7 +148,18 @@
 
     <body ng-controller="MainController">
 
-        <canvas id="renderCanvas"></canvas>
+        <div class="menu">
+            <p>your turn</p>
+        </div>
+        <div class="bricks">
+            <div class="brick"
+                 ng-repeat="brick in bricks"
+                 ng-class="{ active : active{{ $index }} }"></div>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="renderCanvas"></canvas>
+        </div>
 
         <script type="text/javascript">
             $(window).load(function() {
