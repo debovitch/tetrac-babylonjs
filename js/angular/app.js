@@ -7,8 +7,4 @@ angular.module('app').controller('MainController', ['$scope', function($scope) {
         $scope.bricks.push(i);
     }
 
-    for (var i=0; i<10; i++) {
-        $scope['active'+i] = true;
-    }
-
 }]);

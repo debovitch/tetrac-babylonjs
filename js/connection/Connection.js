@@ -13,6 +13,7 @@ function Connection() {
 
 Connection.prototype.send = function(message) {
 
+    console.log('Message sent to server : ' + message);
     this.websocket.send(message);
 
 };
@@ -31,69 +32,34 @@ Connection.prototype.onClose = function() {
 
 Connection.prototype.onMessage = function(event) {
 
-    console.log('RESPONSE : ' + event.data);
-
     var scene = app.world.currentScene;
 
-    if (event.data == 'ready') {
+    try {
+        var response = JSON.parse(event.data);
 
-        scene.readyToPlay();
-
-    } else {
-
-        var response = scene.connection.decodeResponse(event.data);
-        scene.game.id = response.gameId;
-        scene.play(response.x, response.y, -1);
-
+        if ('session' in response) {
+            console.log("Session : " + response.session);
+            scene.readyToPlay();
+        } else if ('game' in response && 'x' in response && 'y' in response) {
+            scene.game.id = response.game;
+            scene.play(response.x, response.y, -1);
+        } else if ('progress' in response) {
+            console.log("Progress : " + response.progress);
+            var scope = angular.element(document.getElementsByTagName('body')).scope();
+            scope["active"+response.progress] = true;
+            scope.$apply();
+        } else {
+            console.error("Unknown response from server : " + event.data);
+        }
+    } catch (e) {
+        console.error("Error trying to parse json response from server : " + event.data);
     }
+
 
 };
 
 Connection.prototype.onError = function(event) {
 
     console.log('ERROR : ' + event.data);
-
-};
-
-Connection.prototype.decodeResponse = function(response) {
-
-    var paramsArray = response.split('&');
-
-    if (paramsArray.length > 1) {
-
-        // Get game id
-        var gameIdKeyValue = paramsArray[0];
-        var gameIdArray = gameIdKeyValue.split('=');
-
-        if (gameIdArray.length != 2) {
-            console.error("Error reading game id : %s", gameIdKeyValue);
-            return null;
-        } else {
-            var gameId = parseInt(gameIdArray[1]);
-        }
-
-        // Get computer move
-        var moveKeyValue = paramsArray[1];
-        var moveArray = moveKeyValue.split('=');
-
-        if (moveArray.length != 2) {
-            console.error("Error reading computer move : %s", moveKeyValue);
-            return null;
-        } else {
-            var move = parseInt(moveArray[1]);
-            var x = Math.floor(move / 10);
-            var y = move % 10;
-        }
-
-        return {
-            gameId : gameId,
-            x : x,
-            y : y
-        };
-
-    } else {
-        console.error("Bad response from server : %s", response);
-        return null;
-    }
 
 };
