@@ -44,9 +44,14 @@ Connection.prototype.onMessage = function(event) {
     if ('session' in response) {
         console.log("Session : " + response.session);
         scene.readyToPlay();
+        var scope = angular.element($('body')).scope();
+        scope.message = "let me think";
+        scope.color = "yellow";
     } else if ('game' in response && 'x' in response && 'y' in response) {
         scene.ghostPawn.isVisible = false;
         scene.game.id = response.game;
+        var scope = angular.element($('body')).scope();
+        scope.toggle();
         scene.play(response.x, response.y, -1);
     } else if ('progress' in response) {
         if (response.progress == 0) {

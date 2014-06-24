@@ -130,9 +130,6 @@
         <script src="js/scene/TetradScene.js"></script>
         <script src="js/scene/SkyboxScene.js"></script>
 
-        <!--<script src="js/ai/Minimax.js"></script>
-        <script src="js/ai/Computer.js"></script>-->
-
         <script src="js/game/Place.js"></script>
         <script src="js/game/BoardLines.js"></script>
         <script src="js/game/PawnLines.js"></script>
@@ -149,12 +146,7 @@
     <body ng-controller="MainController">
 
         <div class="menu">
-            <p>your turn</p>
-        </div>
-        <div class="bricks">
-            <div class="brick"
-                 ng-repeat="brick in bricks"
-                 ng-class="{ active : active{{ $index }} }"></div>
+            <p ng-class="color">{{ message }}</p>
         </div>
 
         <div class="canvas-container">

@@ -420,6 +420,8 @@ TetradScene.prototype.play = function(x, y, player) {
     if (this.menu.mode == Mode.ONEPLAYERONLINE) {
 
         if (player == 1) {
+            var scope = angular.element($('body')).scope();
+            scope.toggle();
             this.connection.send('gameId=' + this.game.id + '&move=' + x + y);
         }
 
