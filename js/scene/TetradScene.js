@@ -102,6 +102,14 @@ TetradScene.prototype.createMaterials = function() {
     this.yellowMaterial.specularColor = new BABYLON.Color3(1, 1, 1);
     this.yellowMaterial.specularPower = 500;
 
+    this.yellowWireframeMaterial = new BABYLON.StandardMaterial("yellowWireframeMat", this);
+    this.yellowWireframeMaterial.ambientColor = new BABYLON.Color3(0.2, 0.1, 0);
+    this.yellowWireframeMaterial.diffuseColor = new BABYLON.Color3(1, 0.8, 0);
+    this.yellowWireframeMaterial.emissiveColor = new BABYLON.Color3(0.2, 0, 0);
+    this.yellowWireframeMaterial.specularColor = new BABYLON.Color3(1, 1, 1);
+    this.yellowWireframeMaterial.specularPower = 500;
+    this.yellowWireframeMaterial.wireframe = true;
+
     this.winningRedMaterial = new BABYLON.StandardMaterial("redMat", this);
     this.winningRedMaterial.ambientColor = new BABYLON.Color3(0.2, 0, 0);
     this.winningRedMaterial.diffuseColor = new BABYLON.Color3(1, 0, 0);
@@ -215,6 +223,16 @@ TetradScene.prototype.createPawns = function(mesh) {
             }
         }
     }
+
+    // Create computer ghost pawn
+    this.ghostPawn = this.pawn.clone("ghostPawn");
+    this.ghostPawn.parent = this.board;
+    this.ghostPawn.isVisible = false;
+    if (this.highDetails) {
+        this.shadowGenerator1.getShadowMap().renderList.push(this.ghostPawn);
+        this.plateMaterial.reflectionTexture.renderList.push(this.ghostPawn);
+    }
+    this.ghostPawn.material = this.yellowWireframeMaterial;
 
 };
 
@@ -375,8 +393,6 @@ TetradScene.prototype.readyToPlay = function() {
 
 TetradScene.prototype.play = function(x, y, player) {
 
-    var that = this;
-
     // Si la colonne est disponible
     if (!this.game.end && this.game.h[x][y] < 4) {
 
@@ -405,20 +421,6 @@ TetradScene.prototype.play = function(x, y, player) {
 
         if (player == 1) {
             this.connection.send('gameId=' + this.game.id + '&move=' + x + y);
-            /*
-                function(response) {
-                    console.log("gameId : %i, x : %i, y : %i", response.gameId, response.x, response.y);
-                    if (response.gameId != that.game.id) {
-                        console.error("Error, game id returned (%s) is different from current game one : %s", response.gameId, that.game.id);
-                    }
-                    if (response.x != -1) {
-                        that.play(response.x, response.y, -1);
-                    } else {
-                        console.log("Game over, you win !");
-                    }
-                }
-            );
-            */
         }
 
     }
@@ -434,8 +436,6 @@ TetradScene.prototype.displayWinningLine = function(x, y, player, line) {
         var xx = this.game.gameLines.pawnsLines[x][y][this.game.h[x][y]][line].places[i].x;
         var yy = this.game.gameLines.pawnsLines[x][y][this.game.h[x][y]][line].places[i].y;
         var zz = this.game.gameLines.pawnsLines[x][y][this.game.h[x][y]][line].places[i].z;
-
-        console.log("Place %i, x : %i, y : %i, z : %i", i, xx, yy, zz);
 
         if (player == 1) {
             this.pawns[xx][yy][zz].material = this.winningRedMaterial;

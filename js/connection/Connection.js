@@ -45,21 +45,18 @@ Connection.prototype.onMessage = function(event) {
         console.log("Session : " + response.session);
         scene.readyToPlay();
     } else if ('game' in response && 'x' in response && 'y' in response) {
-        var scope = angular.element($('body')).scope();
-        scope.$apply(
-            function() {
-                for (var i=0; i<25; i++) {
-                    scope["active"+i] = false;
-                }
-            }
-        );
+        scene.ghostPawn.isVisible = false;
         scene.game.id = response.game;
         scene.play(response.x, response.y, -1);
     } else if ('progress' in response) {
-        console.log("Progress : " + response.progress);
-        var scope = angular.element(document.getElementsByTagName('body')).scope();
-        scope["active"+response.progress] = true;
-        scope.$apply();
+        if (response.progress == 0) {
+            scene.ghostPawn.isVisible = true;
+        }
+        var i = Math.floor(response.progress / 5);
+        var j = response.progress % 5;
+        scene.ghostPawn.position.x = i * (scene.pawnSize + scene.xyGap);
+        scene.ghostPawn.position.y = 2 * scene.squareHeight + scene.game.h[i][j] * (scene.pawnSize + scene.zGap);
+        scene.ghostPawn.position.z = j * (scene.pawnSize + scene.xyGap);
     } else {
         console.error("Unknown response from server : " + event.data);
     }
