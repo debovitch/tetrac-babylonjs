@@ -36,25 +36,33 @@ Connection.prototype.onMessage = function(event) {
 
     try {
         var response = JSON.parse(event.data);
-
-        if ('session' in response) {
-            console.log("Session : " + response.session);
-            scene.readyToPlay();
-        } else if ('game' in response && 'x' in response && 'y' in response) {
-            scene.game.id = response.game;
-            scene.play(response.x, response.y, -1);
-        } else if ('progress' in response) {
-            console.log("Progress : " + response.progress);
-            var scope = angular.element(document.getElementsByTagName('body')).scope();
-            scope["active"+response.progress] = true;
-            scope.$apply();
-        } else {
-            console.error("Unknown response from server : " + event.data);
-        }
     } catch (e) {
         console.error("Error trying to parse json response from server : " + event.data);
+        return;
     }
 
+    if ('session' in response) {
+        console.log("Session : " + response.session);
+        scene.readyToPlay();
+    } else if ('game' in response && 'x' in response && 'y' in response) {
+        var scope = angular.element($('body')).scope();
+        scope.$apply(
+            function() {
+                for (var i=0; i<25; i++) {
+                    scope["active"+i] = false;
+                }
+            }
+        );
+        scene.game.id = response.game;
+        scene.play(response.x, response.y, -1);
+    } else if ('progress' in response) {
+        console.log("Progress : " + response.progress);
+        var scope = angular.element(document.getElementsByTagName('body')).scope();
+        scope["active"+response.progress] = true;
+        scope.$apply();
+    } else {
+        console.error("Unknown response from server : " + event.data);
+    }
 
 };
 
