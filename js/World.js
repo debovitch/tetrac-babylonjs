@@ -25,6 +25,15 @@ function World() {
             }
         );
         that.currentScene.connection = new Connection();
+        // Listen to keydown events
+        $(document).keydown(
+            function(event) {
+                if (event.which == 82 || event.which == 114) {
+                    that.currentScene.reset();
+                }
+            }
+        );
+
     };
 
     // Create scenes

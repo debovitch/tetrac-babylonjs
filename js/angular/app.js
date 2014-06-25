@@ -2,9 +2,6 @@ angular.module('app', []);
 
 angular.module('app').controller('MainController', ['$scope', function($scope) {
 
-    $scope.message = "connection in progress";
-    $scope.color = "white";
-
     $scope.toggle = function() {
 
         $scope.$apply(
@@ -20,5 +17,15 @@ angular.module('app').controller('MainController', ['$scope', function($scope) {
         );
 
     };
+
+    $scope.reset = function() {
+
+        $scope.message = "connection in progress";
+        $scope.color = "white";
+        $scope.restart = false;
+
+    };
+
+    $scope.reset();
 
 }]);

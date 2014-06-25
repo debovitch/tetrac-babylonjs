@@ -2,7 +2,10 @@ function TetradScene(engine, callback) {
 
     BABYLON.Scene.call(this, engine);
 
-    this.engine = engine;
+    this.HEMISPHERIC_LIGHT_INTENSITY = 0.9;
+    this.CAMERA_ALPHA = Math.PI/8;
+    this.CAMERA_BETA = Math.PI/2.7;
+    this.CAMERA_RADIUS = 70;
 
     this.menu = new Menu();
     this.menu.setMode(Mode.ONEPLAYERONLINE);
@@ -41,7 +44,7 @@ TetradScene.prototype.createLights = function() {
     this.hemisphericLight1 = new BABYLON.HemisphericLight("hemisphericLight1", new BABYLON.Vector3(0, 1, 0), this);
     this.hemisphericLight1.diffuse = new BABYLON.Color3(1, 1, 1);
     this.hemisphericLight1.specular = new BABYLON.Color3(0, 0, 0);
-    this.hemisphericLight1.intensity = 0.9;
+    this.hemisphericLight1.intensity = this.HEMISPHERIC_LIGHT_INTENSITY;
 
     var lightDirection = new BABYLON.Vector3(30, -20, -10);
     this.dirLight1 = new BABYLON.DirectionalLight("dirLight1", lightDirection, this);
@@ -60,7 +63,7 @@ TetradScene.prototype.createLights = function() {
 
 TetradScene.prototype.createCameras = function() {
 
-    this.camera1 = new BABYLON.ArcRotateCamera("camera1", Math.PI/8, Math.PI/2.7, 70, new BABYLON.Vector3(0, 3.25, 0), this);
+    this.camera1 = new BABYLON.ArcRotateCamera("camera1", this.CAMERA_ALPHA, this.CAMERA_BETA, this.CAMERA_RADIUS, new BABYLON.Vector3(0, 3.25, 0), this);
 
 };
 
@@ -370,6 +373,33 @@ TetradScene.prototype.putPawn = function(x, y, z, player) {
 
 };
 
+TetradScene.prototype.removePawn = function(x, y, z) {
+
+    this.pawns[x][y][z].isVisible = false;
+
+};
+
+TetradScene.prototype.reset = function() {
+
+    // Reset game and menu models
+    this.game = new Game();
+    this.menu.player = -1;
+
+    // Reset game view
+    this.hemisphericLight1.intensity = this.HEMISPHERIC_LIGHT_INTENSITY;
+    this.camera1.alpha = this.CAMERA_ALPHA;
+    this.camera1.beta = this.CAMERA_BETA;
+    this.camera1.radius = this.CAMERA_RADIUS;
+
+    // Reset menu view
+    var scope = angular.element('body').scope();
+    scope.reset();
+
+    // Start to replay
+    this.readyToPlay();
+
+};
+
 TetradScene.prototype.readyToPlay = function() {
 
     var that = this;
@@ -377,6 +407,7 @@ TetradScene.prototype.readyToPlay = function() {
     for (var i=0; i<5; i++) {
         for (var j=0; j<5; j++) {
             for (var k=0; k<4; k++) {
+                this.removePawn(i, j, k);
                 if (this.game.pawns[i][j][k] != 0) {
                     this.putPawn(i, j, k, this.game.pawns[i][j][k]);
                     this.menu.player *= -1;
@@ -446,6 +477,15 @@ TetradScene.prototype.displayWinningLine = function(x, y, player, line) {
         }
 
     }
+
+    var scope = angular.element($('body')).scope();
+    if (player == 1) {
+        scope.message = "you win !";
+    } else {
+        scope.message = "you lose !";
+    }
+
+    scope.reset();
 
 };
 
