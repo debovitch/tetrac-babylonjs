@@ -485,7 +485,11 @@ TetradScene.prototype.displayWinningLine = function(x, y, player, line) {
         scope.message = "you lose !";
     }
 
-    scope.reset();
+    scope.$apply(
+        function() {
+            scope.restart = true;
+        }
+    );
 
 };
 
