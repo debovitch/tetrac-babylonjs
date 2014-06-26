@@ -235,7 +235,7 @@ TetradScene.prototype.createPawns = function(mesh) {
         this.shadowGenerator1.getShadowMap().renderList.push(this.ghostPawn);
         this.plateMaterial.reflectionTexture.renderList.push(this.ghostPawn);
     }
-    this.ghostPawn.material = this.yellowWireframeMaterial;
+    this.ghostPawn.material = this.blackMaterial;
 
 };
 
