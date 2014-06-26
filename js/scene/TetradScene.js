@@ -19,6 +19,7 @@ function TetradScene(engine, callback) {
     this.dAddColor = 0.01;
 
     this.pawns = [];
+    this.squares = [];
 
     this.clearColor = new BABYLON.Vector3(0.2, 0.2, 0.2);
 
@@ -212,7 +213,7 @@ TetradScene.prototype.createPawns = function(mesh) {
         this.pawns[i] = [];
         for (var j=0; j<5; j++) {
             this.pawns[i][j] = [];
-            for (var k=0; k<5; k++) {
+            for (var k=0; k<4; k++) {
                 this.pawns[i][j][k] = this.pawn.clone("pawn" + i + j + k);
                 this.pawns[i][j][k].position.x = i * (this.pawnSize + this.xyGap);
                 this.pawns[i][j][k].position.y = 2 * this.squareHeight + k * (this.pawnSize + this.zGap);
@@ -243,17 +244,18 @@ TetradScene.prototype.createSquares = function() {
 
     // Create squares
     for (var i=0; i<5; i++) {
+        this.squares[i] = [];
         for (var j=0; j<5; j++) {
-            var square = this.pawn.clone("square" + i + j);
-            square.scaling = new BABYLON.Vector3(0.12, this.squareHeight / 10, 0.12);
-            square.position.x = i * (this.pawnSize + this.xyGap);
-            square.position.y = -1.1;
-            square.position.z = j * (this.pawnSize + this.xyGap);
-            square.material = this.whiteMaterial;
-            square.parent = this.board;
-            square.isVisible = true;
+            this.squares[i][j] = this.pawn.clone("square" + i + j);
+            this.squares[i][j].scaling = new BABYLON.Vector3(0.12, this.squareHeight / 10, 0.12);
+            this.squares[i][j].position.x = i * (this.pawnSize + this.xyGap);
+            this.squares[i][j].position.y = -1.1;
+            this.squares[i][j].position.z = j * (this.pawnSize + this.xyGap);
+            this.squares[i][j].material = this.whiteMaterial;
+            this.squares[i][j].parent = this.board;
+            this.squares[i][j].isVisible = true;
             if (this.highDetails) {
-                this.shadowGenerator1.getShadowMap().renderList.push(square);
+                this.shadowGenerator1.getShadowMap().renderList.push(this.squares[i][j]);
             }
         }
     }
@@ -363,6 +365,7 @@ TetradScene.prototype.putPawn = function(x, y, z, player) {
 
     if (player == -1) {
         this.pawns[x][y][z].material = app.world.tetradScene.yellowMaterial;
+        this.square
     } else if (player == 1) {
         this.pawns[x][y][z].material = app.world.tetradScene.redMaterial;
     } else {
