@@ -508,6 +508,11 @@ TetradScene.prototype.meshHit = function(mesh) {
         return;
     }
 
-    this.play(x, y, this.menu.player);
+    if (this.menu.player == 1) {
+        this.play(x, y, this.menu.player);
+    } else {
+        var scope = angular.element('body').scope();
+        scope.flash("wait a minute cheater ! it is not your turn");
+    }
 
 };

@@ -1,17 +1,17 @@
 angular.module('app', []);
 
-angular.module('app').controller('MainController', ['$scope', function($scope) {
+angular.module('app').controller('MainController', ['$scope', '$timeout', function($scope, $timeout) {
 
     $scope.toggle = function() {
 
         $scope.$apply(
             function() {
-                if ($scope.message == "your turn") {
-                    $scope.message = "let me think";
-                    $scope.color = "yellow";
+                if ($scope.previousMessage == "your turn") {
+                    $scope.previousMessage = $scope.message = "let me think";
+                    $scope.previousColor = $scope.color = "yellow";
                 } else {
-                    $scope.message = "your turn";
-                    $scope.color = "red";
+                    $scope.previousMessage = $scope.message = "your turn";
+                    $scope.previousColor = $scope.color = "red";
                 }
             }
         );
@@ -20,9 +20,27 @@ angular.module('app').controller('MainController', ['$scope', function($scope) {
 
     $scope.reset = function() {
 
-        $scope.message = "connection in progress";
-        $scope.color = "white";
+        $scope.previousMessage = $scope.message = "connection in progress";
+        $scope.previousColor = $scope.color = "white";
         $scope.restart = false;
+
+    };
+
+    $scope.flash = function(message) {
+
+        $scope.$apply(
+            function() {
+                $scope.message = message;
+                $scope.color = 'green';
+            }
+        );
+        $timeout(
+            function() {
+                $scope.message = $scope.previousMessage;
+                $scope.color = $scope.previousColor;
+            },
+            3000
+        );
 
     };
 
