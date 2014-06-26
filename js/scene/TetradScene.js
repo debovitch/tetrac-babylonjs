@@ -2,7 +2,10 @@ function TetradScene(engine, callback) {
 
     BABYLON.Scene.call(this, engine);
 
-    this.engine = engine;
+    this.HEMISPHERIC_LIGHT_INTENSITY = 0.9;
+    this.CAMERA_ALPHA = Math.PI/8;
+    this.CAMERA_BETA = Math.PI/2.7;
+    this.CAMERA_RADIUS = 70;
 
     this.menu = new Menu();
     this.menu.setMode(Mode.ONEPLAYERONLINE);
@@ -11,11 +14,12 @@ function TetradScene(engine, callback) {
 
     this.callback = callback;
 
-    this.highDetails = false;
+    this.highDetails = true;
     this.increase = true;
     this.dAddColor = 0.01;
 
     this.pawns = [];
+    this.squares = [];
 
     this.clearColor = new BABYLON.Vector3(0.2, 0.2, 0.2);
 
@@ -41,7 +45,7 @@ TetradScene.prototype.createLights = function() {
     this.hemisphericLight1 = new BABYLON.HemisphericLight("hemisphericLight1", new BABYLON.Vector3(0, 1, 0), this);
     this.hemisphericLight1.diffuse = new BABYLON.Color3(1, 1, 1);
     this.hemisphericLight1.specular = new BABYLON.Color3(0, 0, 0);
-    this.hemisphericLight1.intensity = 0.9;
+    this.hemisphericLight1.intensity = this.HEMISPHERIC_LIGHT_INTENSITY;
 
     var lightDirection = new BABYLON.Vector3(30, -20, -10);
     this.dirLight1 = new BABYLON.DirectionalLight("dirLight1", lightDirection, this);
@@ -60,7 +64,7 @@ TetradScene.prototype.createLights = function() {
 
 TetradScene.prototype.createCameras = function() {
 
-    this.camera1 = new BABYLON.ArcRotateCamera("camera1", Math.PI/8, Math.PI/2.7, 70, new BABYLON.Vector3(0, 3.25, 0), this);
+    this.camera1 = new BABYLON.ArcRotateCamera("camera1", this.CAMERA_ALPHA, this.CAMERA_BETA, this.CAMERA_RADIUS, new BABYLON.Vector3(0, 3.25, 0), this);
 
 };
 
@@ -101,6 +105,21 @@ TetradScene.prototype.createMaterials = function() {
     this.yellowMaterial.emissiveColor = new BABYLON.Color3(0.2, 0, 0);
     this.yellowMaterial.specularColor = new BABYLON.Color3(1, 1, 1);
     this.yellowMaterial.specularPower = 500;
+
+    this.yellowWireframeMaterial = new BABYLON.StandardMaterial("yellowWireframeMat", this);
+    this.yellowWireframeMaterial.ambientColor = new BABYLON.Color3(0.2, 0.1, 0);
+    this.yellowWireframeMaterial.diffuseColor = new BABYLON.Color3(1, 0.8, 0);
+    this.yellowWireframeMaterial.emissiveColor = new BABYLON.Color3(0.2, 0, 0);
+    this.yellowWireframeMaterial.specularColor = new BABYLON.Color3(1, 1, 1);
+    this.yellowWireframeMaterial.specularPower = 500;
+    this.yellowWireframeMaterial.wireframe = true;
+
+    this.lastMoveMaterial = new BABYLON.StandardMaterial("lastMoveMat", this);
+    this.lastMoveMaterial.ambientColor = new BABYLON.Color3(0, 0.2, 0);
+    this.lastMoveMaterial.diffuseColor = new BABYLON.Color3(0.2, 1, 0.2);
+    this.lastMoveMaterial.emissiveColor = new BABYLON.Color3(0.2, 0.2, 0.2);
+    this.lastMoveMaterial.specularColor = new BABYLON.Color3(1, 1, 1);
+    this.lastMoveMaterial.specularPower = 500;
 
     this.winningRedMaterial = new BABYLON.StandardMaterial("redMat", this);
     this.winningRedMaterial.ambientColor = new BABYLON.Color3(0.2, 0, 0);
@@ -201,7 +220,7 @@ TetradScene.prototype.createPawns = function(mesh) {
         this.pawns[i] = [];
         for (var j=0; j<5; j++) {
             this.pawns[i][j] = [];
-            for (var k=0; k<5; k++) {
+            for (var k=0; k<4; k++) {
                 this.pawns[i][j][k] = this.pawn.clone("pawn" + i + j + k);
                 this.pawns[i][j][k].position.x = i * (this.pawnSize + this.xyGap);
                 this.pawns[i][j][k].position.y = 2 * this.squareHeight + k * (this.pawnSize + this.zGap);
@@ -216,23 +235,34 @@ TetradScene.prototype.createPawns = function(mesh) {
         }
     }
 
+    // Create computer ghost pawn
+    this.ghostPawn = this.pawn.clone("ghostPawn");
+    this.ghostPawn.parent = this.board;
+    this.ghostPawn.isVisible = false;
+    if (this.highDetails) {
+        this.shadowGenerator1.getShadowMap().renderList.push(this.ghostPawn);
+        this.plateMaterial.reflectionTexture.renderList.push(this.ghostPawn);
+    }
+    this.ghostPawn.material = this.blackMaterial;
+
 };
 
 TetradScene.prototype.createSquares = function() {
 
     // Create squares
     for (var i=0; i<5; i++) {
+        this.squares[i] = [];
         for (var j=0; j<5; j++) {
-            var square = this.pawn.clone("square" + i + j);
-            square.scaling = new BABYLON.Vector3(0.12, this.squareHeight / 10, 0.12);
-            square.position.x = i * (this.pawnSize + this.xyGap);
-            square.position.y = -1.1;
-            square.position.z = j * (this.pawnSize + this.xyGap);
-            square.material = this.whiteMaterial;
-            square.parent = this.board;
-            square.isVisible = true;
+            this.squares[i][j] = this.pawn.clone("square" + i + j);
+            this.squares[i][j].scaling = new BABYLON.Vector3(0.12, this.squareHeight / 10, 0.12);
+            this.squares[i][j].position.x = i * (this.pawnSize + this.xyGap);
+            this.squares[i][j].position.y = -1.1;
+            this.squares[i][j].position.z = j * (this.pawnSize + this.xyGap);
+            this.squares[i][j].material = this.whiteMaterial;
+            this.squares[i][j].parent = this.board;
+            this.squares[i][j].isVisible = true;
             if (this.highDetails) {
-                this.shadowGenerator1.getShadowMap().renderList.push(square);
+                this.shadowGenerator1.getShadowMap().renderList.push(this.squares[i][j]);
             }
         }
     }
@@ -341,14 +371,48 @@ TetradScene.prototype.updateWin = function() {
 TetradScene.prototype.putPawn = function(x, y, z, player) {
 
     if (player == -1) {
-        this.pawns[x][y][z].material = app.world.tetradScene.yellowMaterial;
+        this.pawns[x][y][z].material = this.yellowMaterial;
     } else if (player == 1) {
-        this.pawns[x][y][z].material = app.world.tetradScene.redMaterial;
+        this.pawns[x][y][z].material = this.redMaterial;
     } else {
         console.error("Bad value for player in TetradScene.createPawn method");
     }
 
     this.pawns[x][y][z].isVisible = true;
+
+    for (var i=0; i<5; i++) {
+        for (var j=0; j<5; j++) {
+            this.squares[i][j].material = this.whiteMaterial;
+        }
+    }
+    this.squares[x][y].material = this.lastMoveMaterial;
+
+};
+
+TetradScene.prototype.removePawn = function(x, y, z) {
+
+    this.pawns[x][y][z].isVisible = false;
+
+};
+
+TetradScene.prototype.reset = function() {
+
+    // Reset game and menu models
+    this.game = new Game();
+    this.menu.player = -1;
+
+    // Reset game view
+    this.hemisphericLight1.intensity = this.HEMISPHERIC_LIGHT_INTENSITY;
+    this.camera1.alpha = this.CAMERA_ALPHA;
+    this.camera1.beta = this.CAMERA_BETA;
+    this.camera1.radius = this.CAMERA_RADIUS;
+
+    // Reset menu view
+    var scope = angular.element('body').scope();
+    scope.reset();
+
+    // Start to replay
+    this.readyToPlay();
 
 };
 
@@ -359,6 +423,7 @@ TetradScene.prototype.readyToPlay = function() {
     for (var i=0; i<5; i++) {
         for (var j=0; j<5; j++) {
             for (var k=0; k<4; k++) {
+                this.removePawn(i, j, k);
                 if (this.game.pawns[i][j][k] != 0) {
                     this.putPawn(i, j, k, this.game.pawns[i][j][k]);
                     this.menu.player *= -1;
@@ -368,23 +433,12 @@ TetradScene.prototype.readyToPlay = function() {
     }
 
     if (this.menu.mode == Mode.ONEPLAYERONLINE) {
-
-        Helper.sendRequest(
-            '/new',
-            function(response) {
-                console.log("gameId : %i, x : %i, y : %i", response.gameId, response.x, response.y);
-                that.game.id = response.gameId;
-                that.play(response.x, response.y, -1);
-            }
-        );
-
+        this.connection.send('start');
     }
 
 };
 
 TetradScene.prototype.play = function(x, y, player) {
-
-    var that = this;
 
     // Si la colonne est disponible
     if (!this.game.end && this.game.h[x][y] < 4) {
@@ -413,20 +467,9 @@ TetradScene.prototype.play = function(x, y, player) {
     if (this.menu.mode == Mode.ONEPLAYERONLINE) {
 
         if (player == 1) {
-            Helper.sendRequest(
-                '/gameId=' + this.game.id + '&move=' + x + y,
-                function(response) {
-                    console.log("gameId : %i, x : %i, y : %i", response.gameId, response.x, response.y);
-                    if (response.gameId != that.game.id) {
-                        console.error("Error, game id returned (%s) is different from current game one : %s", response.gameId, that.game.id);
-                    }
-                    if (response.x != -1) {
-                        that.play(response.x, response.y, -1);
-                    } else {
-                        console.log("Game over, you win !");
-                    }
-                }
-            );
+            var scope = angular.element($('body')).scope();
+            scope.toggle();
+            this.connection.send('gameId=' + this.game.id + '&move=' + x + y);
         }
 
     }
@@ -443,8 +486,6 @@ TetradScene.prototype.displayWinningLine = function(x, y, player, line) {
         var yy = this.game.gameLines.pawnsLines[x][y][this.game.h[x][y]][line].places[i].y;
         var zz = this.game.gameLines.pawnsLines[x][y][this.game.h[x][y]][line].places[i].z;
 
-        console.log("Place %i, x : %i, y : %i, z : %i", i, xx, yy, zz);
-
         if (player == 1) {
             this.pawns[xx][yy][zz].material = this.winningRedMaterial;
         } else {
@@ -452,6 +493,19 @@ TetradScene.prototype.displayWinningLine = function(x, y, player, line) {
         }
 
     }
+
+    var scope = angular.element($('body')).scope();
+    if (player == 1) {
+        scope.message = "you win !";
+    } else {
+        scope.message = "you lose !";
+    }
+
+    scope.$apply(
+        function() {
+            scope.restart = true;
+        }
+    );
 
 };
 
@@ -470,6 +524,11 @@ TetradScene.prototype.meshHit = function(mesh) {
         return;
     }
 
-    this.play(x, y, this.menu.player);
+    if (this.menu.player == 1) {
+        this.play(x, y, this.menu.player);
+    } else {
+        var scope = angular.element('body').scope();
+        scope.flash("wait a minute cheater ! it is not your turn");
+    }
 
 };
