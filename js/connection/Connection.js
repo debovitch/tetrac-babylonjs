@@ -9,6 +9,8 @@ function Connection() {
     this.websocket.onmessage = this.onMessage;
     this.websocket.onerror = this.onError;
 
+    this.timer = null;
+
 }
 
 Connection.prototype.send = function(message) {
@@ -22,11 +24,22 @@ Connection.prototype.onOpen = function() {
 
     console.log('CONNECTED');
 
+    var that = app.world.currentScene.connection;
+    this.timer = window.setInterval(
+        function() {
+            that.send("still alive");
+        },
+        30000
+    );
+
 };
 
-Connection.prototype.onClose = function() {
+Connection.prototype.onClose = function(event) {
 
-    console.log('DISCONNECTED');
+    console.log('DISCONNECTED because : ' + event.reason);
+
+    var that = app.world.currentScene.connection;
+    window.clearInterval(that.timer);
 
 };
 
