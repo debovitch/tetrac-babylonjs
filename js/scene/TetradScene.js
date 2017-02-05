@@ -62,11 +62,12 @@ TetradScene.prototype.createLights = function() {
 
 TetradScene.prototype.createCameras = function() {
 
-    this.arcRotateCamera = new BABYLON.ArcRotateCamera("camera1", this.CAMERA_ALPHA, this.CAMERA_BETA, this.CAMERA_RADIUS, new BABYLON.Vector3(0, 3.25, 0), this.scene);
+    this.arcRotateCamera = new BABYLON.ArcRotateCamera("ArcRotateCamera", this.CAMERA_ALPHA, this.CAMERA_BETA, this.CAMERA_RADIUS, new BABYLON.Vector3(0, 3.25, 0), this.scene);
     this.arcRotateCamera.lowerBetaLimit = 0.1;
     this.arcRotateCamera.upperBetaLimit = (Math.PI / 2) * 0.99;
     this.arcRotateCamera.lowerRadiusLimit = 10;
     this.arcRotateCamera.upperRadiusLimit = 140;
+    this.arcRotateCamera.inertia = 0.8;
 
 };
 
@@ -336,7 +337,7 @@ TetradScene.prototype.updateWin = function() {
         this.hemisphericLight1.intensity -= 0.01;
     }
 
-    this.camera1.alpha += 0.001;
+    this.arcRotateCamera.alpha += 0.001;
 
 };
 
@@ -375,9 +376,9 @@ TetradScene.prototype.reset = function() {
 
     // Reset game view
     this.hemisphericLight1.intensity = this.HEMISPHERIC_LIGHT_INTENSITY;
-    this.camera1.alpha = this.CAMERA_ALPHA;
-    this.camera1.beta = this.CAMERA_BETA;
-    this.camera1.radius = this.CAMERA_RADIUS;
+    this.arcRotateCamera.alpha = this.CAMERA_ALPHA;
+    this.arcRotateCamera.beta = this.CAMERA_BETA;
+    this.arcRotateCamera.radius = this.CAMERA_RADIUS;
 
     // Reset menu view
     var scope = angular.element('body').scope();
