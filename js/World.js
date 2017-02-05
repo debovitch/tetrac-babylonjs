@@ -41,22 +41,25 @@ function World() {
     this.currentScene = new TetradScene(this.engine, this.callback);
 
     // Set click listener
-    window.addEventListener(
-        'dblclick',
-        function(event) {
-            var pickResult = that.currentScene.scene.pick(event.clientX, event.clientY);
-            if (pickResult.hit) {
-                that.currentScene.meshHit(pickResult.pickedMesh);
-            }
+    var selectColumnHandler = function(x, y) {
+        var pickResult = that.currentScene.scene.pick(x, y);
+        if (pickResult.hit) {
+            that.currentScene.meshHit(pickResult.pickedMesh);
         }
-    );
+    };
+
+    $(window).on('dblclick', function(event) {
+        selectColumnHandler(event.clientX, event.clientY);
+    });
+
+    var hammer = new Hammer(this.canvas);
+    hammer.on("doubletap", function(event) {
+        selectColumnHandler(event.center.x, event.center.y);
+    });
 
     // Set resize event callback
-    window.addEventListener(
-        'resize',
-        function () {
-            app.world.engine.resize();
-        }
-    );
+    $(window).on('resize', function () {
+        app.world.engine.resize();
+    });
 
 }
