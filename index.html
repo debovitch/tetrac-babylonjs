@@ -16,20 +16,16 @@
 
         <script src="lib/modernizr/modernizr-2.6.2.min.js"></script>
         <script src="lib/jquery/jquery.min.js"></script>
-        <script src="https://code.jquery.com/pep/0.4.1/pep.js"></script>
-        <script src="https://hammerjs.github.io/dist/hammer.js"></script>
-        <script src="lib/angular/angular.js"></script>
+        <script src="https://code.jquery.com/pep/0.4.1/pep.min.js"></script>
+        <script src="https://hammerjs.github.io/dist/hammer.min.js"></script>
+        <script src="lib/angular/angular.min.js"></script>
 
-        <script src="lib/babylonjs/babylon.max.js"></script>
-        <!--<script src="http://cdn.babylonjs.com/2-5/babylon.max.js"></script>-->
+        <!--<script src="lib/babylonjs/babylon.max.js"></script>-->
+        <script src="http://cdn.babylonjs.com/2-5/babylon.js"></script>
 
         <script src="js/World.js"></script>
 
-        <script src="js/scene/TestScene.js"></script>
-        <!--<script src="js/scene/PhysicsScene.js"></script>-->
-        <!--<script src="js/scene/BlenderScene.js"></script>-->
         <script src="js/scene/TetradScene.js"></script>
-        <!--<script src="js/scene/SkyboxScene.js"></script>-->
 
         <script src="js/game/Place.js"></script>
         <script src="js/game/BoardLines.js"></script>
@@ -47,6 +43,7 @@
     <body ng-controller="MainController">
 
         <div class="menu">
+            <img ng-click="toggleFullScreen()" ng-src="img/{{fullscreenImage()}}" alt="fullscreen"/>
             <p ng-class="color">{{ message }}</p>
             <p class="white" ng-show="restart">Press R to restart</p>
         </div>

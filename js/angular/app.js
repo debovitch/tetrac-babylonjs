@@ -44,6 +44,45 @@ angular.module('app').controller('MainController', ['$scope', '$timeout', functi
 
     };
 
+    $scope.fullscreen = false;
+
+    $scope.fullscreenImage = function() {
+        return $scope.fullscreen ? "fullscreen_exit_grey.png" : "fullscreen_grey.png";
+    };
+
+    $scope.toggleFullScreen = function toggleFullScreen() {
+        if (!document.fullscreenElement && !document.mozFullScreenElement
+            && !document.webkitFullscreenElement && !document.msFullscreenElement ) {
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
+                $scope.fullscreen = true;
+            } else if (document.documentElement.msRequestFullscreen) {
+                document.documentElement.msRequestFullscreen();
+                $scope.fullscreen = true;
+            } else if (document.documentElement.mozRequestFullScreen) {
+                document.documentElement.mozRequestFullScreen();
+                $scope.fullscreen = true;
+            } else if (document.documentElement.webkitRequestFullscreen) {
+                document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+                $scope.fullscreen = true;
+            }
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+                $scope.fullscreen = false;
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+                $scope.fullscreen = false;
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+                $scope.fullscreen = false;
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+                $scope.fullscreen = false;
+            }
+        }
+    };
+
     $scope.reset();
 
 }]);
