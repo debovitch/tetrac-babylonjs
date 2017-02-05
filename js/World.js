@@ -29,7 +29,7 @@ function World() {
             }
         });
         // Attach input events to active camera
-        that.currentScene.scene.activeCamera.attachControl(that.canvas);
+        that.currentScene.scene.activeCamera.attachControl(that.canvas, true);
         that.currentScene.connection = new Connection();
     };
 

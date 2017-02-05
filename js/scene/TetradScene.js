@@ -21,13 +21,13 @@ function TetradScene(engine, callback) {
     this.pawns = [];
     this.squares = [];
 
-    this.clearColor = new BABYLON.Vector3(0.2, 0.2, 0.2);
-
     this.createMaterials();
     this.createLights();
     this.createCameras();
     this.createObjects();
     this.createSkybox();
+
+    this.scene.activeCamera = this.arcRotateCamera;
 
     this.scene.registerBeforeRender(this.update);
 
@@ -62,7 +62,11 @@ TetradScene.prototype.createLights = function() {
 
 TetradScene.prototype.createCameras = function() {
 
-    this.camera1 = new BABYLON.ArcRotateCamera("camera1", this.CAMERA_ALPHA, this.CAMERA_BETA, this.CAMERA_RADIUS, new BABYLON.Vector3(0, 3.25, 0), this.scene);
+    this.arcRotateCamera = new BABYLON.ArcRotateCamera("camera1", this.CAMERA_ALPHA, this.CAMERA_BETA, this.CAMERA_RADIUS, new BABYLON.Vector3(0, 3.25, 0), this.scene);
+    this.arcRotateCamera.lowerBetaLimit = 0.1;
+    this.arcRotateCamera.upperBetaLimit = (Math.PI / 2) * 0.99;
+    this.arcRotateCamera.lowerRadiusLimit = 10;
+    this.arcRotateCamera.upperRadiusLimit = 140;
 
 };
 
@@ -157,8 +161,6 @@ TetradScene.prototype.createObjects = function() {
     this.setDimensions();
 
     var that = this;
-
-    //this.createGround();
 
     BABYLON.SceneLoader.ImportMesh(
         "", "/assets/tetrad/", "tetrad.json",
@@ -278,17 +280,6 @@ TetradScene.prototype.createPlate = function() {
 
 };
 
-TetradScene.prototype.createGround = function() {
-
-    this.ground = BABYLON.Mesh.CreateGround("ground", 600, 600, 1, this.scene, false);
-    this.ground.locallyTranslate(new BABYLON.Vector3(0, -4, 0));
-    if (this.highDetails) {
-        this.ground.receiveShadows = true;
-    }
-    this.ground.material = this.groundMaterial;
-
-};
-
 TetradScene.prototype.createSkybox = function() {
 
     var skybox = BABYLON.Mesh.CreateBox("skybox", 300.0, this.scene);
@@ -308,25 +299,8 @@ TetradScene.prototype.update = function() {
 
     var that = app.world.currentScene;
 
-    that.updateCamera();
     if (that.game.end) {
         that.updateWin();
-    }
-
-};
-
-TetradScene.prototype.updateCamera = function() {
-
-    if (this.camera1.beta < 0.1) {
-        this.camera1.beta = 0.1;
-    } else if (this.camera1.beta > (Math.PI / 2) * 0.99) {
-        this.camera1.beta = (Math.PI / 2) * 0.99;
-    }
-
-    if (this.camera1.radius > 140) {
-        this.camera1.radius = 140;
-    } else if (this.camera1.radius < 10) {
-        this.camera1.radius = 10;
     }
 
 };
