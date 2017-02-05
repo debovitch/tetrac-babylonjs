@@ -18,7 +18,7 @@ function World() {
     this.engine.runEvenInBackground = false;
 
     // Create render loop when scene is loaded
-    this.callback = function() {
+    this.onSceneLoaded = function() {
         that.engine.runRenderLoop(function() {
             that.currentScene.scene.render();
         });
@@ -38,7 +38,7 @@ function World() {
     //this.currentScene = new PhysicsScene(this.engine);
     //this.currentScene = new BlenderScene(this.engine);
     //this.currentScene = new SkyboxScene(this.engine, this.callback);
-    this.currentScene = new TetradScene(this.engine, this.callback);
+    this.currentScene = new TetradScene(this.engine);
 
     // Set click listener
     var selectColumnHandler = function(x, y) {
