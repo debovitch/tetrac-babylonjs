@@ -1,6 +1,6 @@
 function TetradScene(engine, callback) {
 
-    BABYLON.Scene.call(this, engine);
+    this.scene = new BABYLON.Scene(engine)
 
     this.HEMISPHERIC_LIGHT_INTENSITY = 0.9;
     this.CAMERA_ALPHA = Math.PI/8;
@@ -29,26 +29,24 @@ function TetradScene(engine, callback) {
     this.createObjects();
     this.createSkybox();
 
-    this.registerBeforeRender(this.update);
+    this.scene.registerBeforeRender(this.update);
 
 }
 
-$.extend(TetradScene.prototype, BABYLON.Scene.prototype);
-
 TetradScene.prototype.createLights = function() {
 
-    this.omniLight1 = new BABYLON.PointLight("omniLight1", new BABYLON.Vector3(0, 20, 0), this);
+    this.omniLight1 = new BABYLON.PointLight("omniLight1", new BABYLON.Vector3(0, 20, 0), this.scene);
     this.omniLight1.diffuse = new BABYLON.Color3(0, 0, 1);
     this.omniLight1.specular = new BABYLON.Color3(0, 0, 1);
     this.omniLight1.intensity = 0.6;
 
-    this.hemisphericLight1 = new BABYLON.HemisphericLight("hemisphericLight1", new BABYLON.Vector3(0, 1, 0), this);
+    this.hemisphericLight1 = new BABYLON.HemisphericLight("hemisphericLight1", new BABYLON.Vector3(0, 1, 0), this.scene);
     this.hemisphericLight1.diffuse = new BABYLON.Color3(1, 1, 1);
     this.hemisphericLight1.specular = new BABYLON.Color3(0, 0, 0);
     this.hemisphericLight1.intensity = this.HEMISPHERIC_LIGHT_INTENSITY;
 
     var lightDirection = new BABYLON.Vector3(30, -20, -10);
-    this.dirLight1 = new BABYLON.DirectionalLight("dirLight1", lightDirection, this);
+    this.dirLight1 = new BABYLON.DirectionalLight("dirLight1", lightDirection, this.scene);
     this.dirLight1.position = lightDirection.negate();
     this.dirLight1.diffuse = new BABYLON.Color3(1, 1, 1);
     this.dirLight1.specular = new BABYLON.Color3(1, 1, 1);
@@ -64,49 +62,49 @@ TetradScene.prototype.createLights = function() {
 
 TetradScene.prototype.createCameras = function() {
 
-    this.camera1 = new BABYLON.ArcRotateCamera("camera1", this.CAMERA_ALPHA, this.CAMERA_BETA, this.CAMERA_RADIUS, new BABYLON.Vector3(0, 3.25, 0), this);
+    this.camera1 = new BABYLON.ArcRotateCamera("camera1", this.CAMERA_ALPHA, this.CAMERA_BETA, this.CAMERA_RADIUS, new BABYLON.Vector3(0, 3.25, 0), this.scene);
 
 };
 
 TetradScene.prototype.createMaterials = function() {
 
-    this.plateMaterial = new BABYLON.StandardMaterial("mirrorMat", this);
+    this.plateMaterial = new BABYLON.StandardMaterial("mirrorMat", this.scene);
     this.plateMaterial.ambientColor = new BABYLON.Color3(0, 0, 0);
     this.plateMaterial.diffuseColor = new BABYLON.Color3(0.0872, 0.0372, 0.0147);
     this.plateMaterial.specularColor = new BABYLON.Color3(1.0000, 1.0000, 1.0000);
     this.plateMaterial.specularPower = 500;
     this.plateMaterial.backFaceCulling = true;
     if (this.highDetails) {
-        this.plateMaterial.reflectionTexture = new BABYLON.MirrorTexture("mirrorTex", 1024, this, true);
+        this.plateMaterial.reflectionTexture = new BABYLON.MirrorTexture("mirrorTex", 1024, this.scene, true);
         this.plateMaterial.reflectionTexture.mirrorPlane = new BABYLON.Plane(0, -1, 0, -1.95);
         this.plateMaterial.reflectionTexture.level = 0.1;
     }
 
-    this.blackMaterial = new BABYLON.StandardMaterial("blackMat", this);
+    this.blackMaterial = new BABYLON.StandardMaterial("blackMat", this.scene);
     this.blackMaterial.diffuseColor = new BABYLON.Color3(0.1, 0.1, 0.1);
     this.blackMaterial.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
     this.blackMaterial.specularPower = 1;
 
-    this.whiteMaterial = new BABYLON.StandardMaterial("whiteMat", this);
+    this.whiteMaterial = new BABYLON.StandardMaterial("whiteMat", this.scene);
     this.whiteMaterial.diffuseColor = new BABYLON.Color3(1, 1, 1);
     this.whiteMaterial.specularColor = new BABYLON.Color3(1, 1, 1);
     this.whiteMaterial.specularPower = 500;
 
-    this.redMaterial = new BABYLON.StandardMaterial("redMat", this);
+    this.redMaterial = new BABYLON.StandardMaterial("redMat", this.scene);
     this.redMaterial.ambientColor = new BABYLON.Color3(0.2, 0.1, 0);
     this.redMaterial.diffuseColor = new BABYLON.Color3(1, 0, 0);
     this.redMaterial.emissiveColor = new BABYLON.Color3(0.2, 0, 0);
     this.redMaterial.specularColor = new BABYLON.Color3(1, 1, 1);
     this.redMaterial.specularPower = 500;
 
-    this.yellowMaterial = new BABYLON.StandardMaterial("yellowMat", this);
+    this.yellowMaterial = new BABYLON.StandardMaterial("yellowMat", this.scene);
     this.yellowMaterial.ambientColor = new BABYLON.Color3(0.2, 0.1, 0);
     this.yellowMaterial.diffuseColor = new BABYLON.Color3(1, 0.8, 0);
     this.yellowMaterial.emissiveColor = new BABYLON.Color3(0.2, 0, 0);
     this.yellowMaterial.specularColor = new BABYLON.Color3(1, 1, 1);
     this.yellowMaterial.specularPower = 500;
 
-    this.yellowWireframeMaterial = new BABYLON.StandardMaterial("yellowWireframeMat", this);
+    this.yellowWireframeMaterial = new BABYLON.StandardMaterial("yellowWireframeMat", this.scene);
     this.yellowWireframeMaterial.ambientColor = new BABYLON.Color3(0.2, 0.1, 0);
     this.yellowWireframeMaterial.diffuseColor = new BABYLON.Color3(1, 0.8, 0);
     this.yellowWireframeMaterial.emissiveColor = new BABYLON.Color3(0.2, 0, 0);
@@ -114,14 +112,14 @@ TetradScene.prototype.createMaterials = function() {
     this.yellowWireframeMaterial.specularPower = 500;
     this.yellowWireframeMaterial.wireframe = true;
 
-    this.lastMoveMaterial = new BABYLON.StandardMaterial("lastMoveMat", this);
+    this.lastMoveMaterial = new BABYLON.StandardMaterial("lastMoveMat", this.scene);
     this.lastMoveMaterial.ambientColor = new BABYLON.Color3(0, 0.2, 0);
     this.lastMoveMaterial.diffuseColor = new BABYLON.Color3(0.2, 1, 0.2);
     this.lastMoveMaterial.emissiveColor = new BABYLON.Color3(0.2, 0.2, 0.2);
     this.lastMoveMaterial.specularColor = new BABYLON.Color3(1, 1, 1);
     this.lastMoveMaterial.specularPower = 500;
 
-    this.winningRedMaterial = new BABYLON.StandardMaterial("redMat", this);
+    this.winningRedMaterial = new BABYLON.StandardMaterial("redMat", this.scene);
     this.winningRedMaterial.ambientColor = new BABYLON.Color3(0.2, 0, 0);
     this.winningRedMaterial.diffuseColor = new BABYLON.Color3(1, 0, 0);
     this.winningRedMaterial.emissiveColor = new BABYLON.Color3(0, 0, 0);
@@ -129,7 +127,7 @@ TetradScene.prototype.createMaterials = function() {
     this.winningRedMaterial.specularPower = 500;
     this.addRedColor = new BABYLON.Color3(this.dAddColor, 0, 0);
 
-    this.winningYellowMaterial = new BABYLON.StandardMaterial("yellowMat", this);
+    this.winningYellowMaterial = new BABYLON.StandardMaterial("yellowMat", this.scene);
     this.winningYellowMaterial.ambientColor = new BABYLON.Color3(0.2, 0.1, 0);
     this.winningYellowMaterial.diffuseColor = new BABYLON.Color3(1, 0.8, 0);
     this.winningYellowMaterial.emissiveColor = new BABYLON.Color3(0.2, 0, 0);
@@ -137,15 +135,15 @@ TetradScene.prototype.createMaterials = function() {
     this.winningYellowMaterial.specularPower = 500;
     this.addYellowColor = new BABYLON.Color3(this.dAddColor, this.dAddColor, 0);
 
-    this.groundMaterial = new BABYLON.StandardMaterial("groundMat", this);
-    this.groundMaterial.diffuseTexture = new BABYLON.Texture("assets/textures/ground.jpg", this);
+    this.groundMaterial = new BABYLON.StandardMaterial("groundMat", this.scene);
+    this.groundMaterial.diffuseTexture = new BABYLON.Texture("assets/textures/ground.jpg", this.scene);
     this.groundMaterial.diffuseTexture.uScale = 50.0;
     this.groundMaterial.diffuseTexture.vScale = 50.0;
     this.groundMaterial.specularColor = new BABYLON.Color3(0.0000, 0.0000, 0.0000);
     this.groundMaterial.specularPower = 1;
     this.groundMaterial.backFaceCulling = true;
 
-    this.boundsMaterial = new BABYLON.StandardMaterial("boundsMat", this);
+    this.boundsMaterial = new BABYLON.StandardMaterial("boundsMat", this.scene);
     this.boundsMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
     this.boundsMaterial.diffuseColor = new BABYLON.Color3(0.5878, 0.4243, 0.1882);
     this.boundsMaterial.emissiveColor = new BABYLON.Color3(0, 0, 0);
@@ -164,7 +162,7 @@ TetradScene.prototype.createObjects = function() {
 
     BABYLON.SceneLoader.ImportMesh(
         "", "/assets/tetrad/", "tetrad.json",
-        that,
+        that.scene,
         function(meshes) {
 
             that.createBounds(meshes[0]);
@@ -201,7 +199,7 @@ TetradScene.prototype.createBounds = function(mesh) {
 TetradScene.prototype.createBoard = function() {
 
     // Create board
-    this.board = BABYLON.Mesh.CreateBox("board", 2.5 * 5, this);
+    this.board = BABYLON.Mesh.CreateBox("board", 2.5 * 5, this.scene);
     this.board.material = this.wireMaterial;
     this.board.locallyTranslate(new BABYLON.Vector3(this.originXY, this.originZ, this.originXY));
     this.board.isVisible = false;
@@ -271,7 +269,7 @@ TetradScene.prototype.createSquares = function() {
 
 TetradScene.prototype.createPlate = function() {
 
-    this.plate = BABYLON.Mesh.CreateGround("mirror", 40, 40, 1, this, false);
+    this.plate = BABYLON.Mesh.CreateGround("mirror", 40, 40, 1, this.scene, false);
     this.plate.locallyTranslate(new BABYLON.Vector3(0, this.plateZ, 0));
     if (this.highDetails) {
         this.plate.receiveShadows = true;
@@ -282,7 +280,7 @@ TetradScene.prototype.createPlate = function() {
 
 TetradScene.prototype.createGround = function() {
 
-    this.ground = BABYLON.Mesh.CreateGround("ground", 600, 600, 1, this, false);
+    this.ground = BABYLON.Mesh.CreateGround("ground", 600, 600, 1, this.scene, false);
     this.ground.locallyTranslate(new BABYLON.Vector3(0, -4, 0));
     if (this.highDetails) {
         this.ground.receiveShadows = true;
@@ -293,13 +291,13 @@ TetradScene.prototype.createGround = function() {
 
 TetradScene.prototype.createSkybox = function() {
 
-    var skybox = BABYLON.Mesh.CreateBox("skybox", 300.0, this);
-    var skyboxMaterial = new BABYLON.StandardMaterial("skyboxMat", this);
+    var skybox = BABYLON.Mesh.CreateBox("skybox", 300.0, this.scene);
+    var skyboxMaterial = new BABYLON.StandardMaterial("skyboxMat", this.scene);
     skyboxMaterial.backFaceCulling = false;
     skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
     skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
     var extensions = ['_right.jpg', '_up.jpg', '_back.jpg', '_left.jpg', '_down.jpg', '_front.jpg'];
-    skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("assets/skybox/fullMoon/full_moon", this, extensions);
+    skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("assets/skybox/fullMoon/full_moon", this.scene, extensions);
     skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
 
     skybox.material = skyboxMaterial;

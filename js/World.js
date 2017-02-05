@@ -19,39 +19,32 @@ function World() {
 
     // Create render loop when scene is loaded
     this.callback = function() {
-        that.engine.runRenderLoop(
-            function() {
-                that.currentScene.render();
-            }
-        );
-        that.currentScene.connection = new Connection();
+        that.engine.runRenderLoop(function() {
+            that.currentScene.scene.render();
+        });
         // Listen to keydown events
-        $(document).keydown(
-            function(event) {
-                if (event.which == 82 || event.which == 114) {
-                    that.currentScene.reset();
-                }
+        $(document).keydown(function(event) {
+            if (event.which == 82 || event.which == 114) {
+                that.currentScene.reset();
             }
-        );
-
+        });
+        // Attach input events to active camera
+        that.currentScene.scene.activeCamera.attachControl(that.canvas);
+        that.currentScene.connection = new Connection();
     };
 
     // Create scenes
-    /*this.testScene = new TestScene(this.engine, this.callback);
-    var physicsScene = new PhysicsScene(this.engine);
-    var blenderScene = new BlenderScene(this.engine);
-    var skyboxScene = new SkyboxScene(this.engine, this.callback);*/
-    this.tetradScene = new TetradScene(this.engine, this.callback);
-
-    // Attach input events to active camera
-    this.currentScene = this.tetradScene;
-    this.currentScene.activeCamera.attachControl(this.canvas);
+    //this.currentScene = new TestScene(this.engine, this.callback);
+    //this.currentScene = new PhysicsScene(this.engine);
+    //this.currentScene = new BlenderScene(this.engine);
+    //this.currentScene = new SkyboxScene(this.engine, this.callback);
+    this.currentScene = new TetradScene(this.engine, this.callback);
 
     // Set click listener
     window.addEventListener(
         'dblclick',
         function(event) {
-            var pickResult = that.currentScene.pick(event.clientX, event.clientY);
+            var pickResult = that.currentScene.scene.pick(event.clientX, event.clientY);
             if (pickResult.hit) {
                 that.currentScene.meshHit(pickResult.pickedMesh);
             }
