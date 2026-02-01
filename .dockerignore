@@ -1,0 +1,43 @@
+# Docker ignore file optimisé pour Dokploy
+
+# Fichiers git et versioning
+.git
+.gitignore
+.gitmodules
+
+# Fichiers IDE et éditeurs
+.idea/
+.vscode/
+.history/
+*.swp
+*.swo
+*.swo
+
+# Fichiers macOS
+.DS_Store
+.__MACOSX
+
+# Fichiers de build et dépendances externes
+bower_components/
+node_modules/
+
+# Fichiers de documentation (optionnel)
+.doc/
+
+# Fichiers temporaires et logs
+*.log
+*.tmp
+*.cache
+
+# Fichiers de configuration locale
+.env
+.env.local
+.env.*
+
+# Fichiers Docker temporaires
+Dockerfile.bak
+nginx.conf.bak
+.dockerignore.bak
+
+# Fichiers spécifiques à Dokploy (si générés localement)
+.dokploy/
