@@ -1,5 +1,5 @@
 function Connection() {
-  this.baseUrl = "ws://localhost:8080/new";
+  this.baseUrl = "ws://" + window.location.host + ":8080/new";
 
   this.websocket = new WebSocket(this.baseUrl);
 
