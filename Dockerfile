@@ -7,8 +7,10 @@ FROM nginx:alpine
 # Auteur
 LABEL maintainer="thierryduchassin"
 
-# Copie des fichiers de l'application
-# Dokploy gère la configuration nginx, nous fournissons juste les fichiers statiques
+# Configuration nginx explicite pour l'application statique
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copie des fichiers statiques de l'application
 COPY . /usr/share/nginx/html
 
 # Exposition du port 80 (standard pour les applications web)
