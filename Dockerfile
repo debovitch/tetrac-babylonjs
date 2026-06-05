@@ -11,7 +11,15 @@ LABEL maintainer="thierryduchassin"
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copie des fichiers statiques de l'application
-COPY . /usr/share/nginx/html
+COPY index.html favicon.ico windowStudio.hdr /usr/share/nginx/html/
+COPY assets/ /usr/share/nginx/html/assets/
+COPY css/ /usr/share/nginx/html/css/
+COPY img/ /usr/share/nginx/html/img/
+COPY js/ /usr/share/nginx/html/js/
+COPY lib/ /usr/share/nginx/html/lib/
+
+# Le build doit échouer si le contexte Docker ne contient pas les fichiers du site.
+RUN test -f /usr/share/nginx/html/index.html
 
 # Exposition du port 80 (standard pour les applications web)
 EXPOSE 80
