@@ -7,8 +7,12 @@ FROM nginx:alpine
 # Auteur
 LABEL maintainer="thierryduchassin"
 
+# Backend websocket interne. Peut etre override dans Dokploy si le service a un
+# nom DNS genere, par exemple tetrac-websocket-server-giilkx:8080.
+ENV TETRAD_BACKEND=tetradserver:8080
+
 # Configuration nginx explicite pour l'application statique
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/templates/default.conf.template
 
 # Copie des fichiers statiques de l'application
 COPY index.html favicon.ico windowStudio.hdr /usr/share/nginx/html/

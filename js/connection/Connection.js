@@ -1,6 +1,6 @@
 function Connection() {
   var protocol = window.location.protocol === "https:" ? "wss://" : "ws://";
-  this.baseUrl = protocol + window.location.host + "/new";
+  this.baseUrl = protocol + window.location.host + "/ws";
 
   this.websocket = new WebSocket(this.baseUrl);
 
